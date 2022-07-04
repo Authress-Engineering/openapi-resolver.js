@@ -26,22 +26,27 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-      - name: Install dependencies
-        run: npm ci
-      - name: Semantic Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@v2
-        with:
-          dry_run: false
-          extra_plugins: |
-            @semantic-release/git
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install packages
+        run: yarn --frozen-lockfile
+      - name: Run build
+        run: node make.js build
+      - name: Test
+        run: yarn lint && yarn test
+      - name: Deploy to NPM
+        if: github.repository_owner == 'Authress' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
+        run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.SWAGGER_BOT_GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Release published
-        if: steps.semantic.outputs.new_release_published == 'true'
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: After build
+        if: github.repository_owner == 'Authress' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node make.js after_build
+      - name: Create Github Release and Tag
+        if: github.repository_owner == 'Authress' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
         run: |
-          echo ${{ steps.semantic.outputs.new_release_version }}
-          echo ${{ steps.semantic.outputs.new_release_major_version }}
-          echo ${{ steps.semantic.outputs.new_release_minor_version }}
-          echo ${{ steps.semantic.outputs.new_release_patch_version }}
+          git tag ${GITHUB_REF/refs\/heads\/release\//}.$GITHUB_RUN_NUMBER
+          git push origin ${GITHUB_REF/refs\/heads\/release\//}.$GITHUB_RUN_NUMBER

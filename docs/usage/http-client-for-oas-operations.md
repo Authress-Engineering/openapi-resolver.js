@@ -17,7 +17,7 @@ Property | Description
 `pathName` | `String`. OpenAPI defines a unique operation as a combination of a path and an HTTP method. If `operationId` is not provided, this property must be set.
 `method` | `String=["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH"]`. OpenAPI defines a unique operation as a combination of a path and an HTTP method. If `operationId` is not provided, this property must be set.
 `parameters` | `Object`. Parameters object, eg: `{ q: 'search string' }`. Parameters not defined in `spec` will be ignored.
-`parameterBuilders` | `Object=null`. When provided in shape of `{ body: Function, header: Function, query: Function, path: Function, formData: Function }`, it can fully conltrol how parameters of various types are built. This library comes with two default parameter builders: [OpenAPI 2.x builders](https://github.com/swagger-api/swagger-js/blob/master/src/execute/swagger2/parameter-builders.js) and [OpenAPI 3.0.x builders](https://github.com/swagger-api/swagger-js/blob/master/src/execute/oas3/parameter-builders.js).   
+`parameterBuilders` | `Object=null`. When provided in shape of `{ body: Function, header: Function, query: Function, path: Function, formData: Function }`, it can fully conltrol how parameters of various types are built. This library comes with two default parameter builders: [OpenAPI 2.x builders](https://github.com/rhosys/openapi-resolver.js/blob/master/src/execute/swagger2/parameter-builders.js) and [OpenAPI 3.0.x builders](https://github.com/rhosys/openapi-resolver.js/blob/master/src/execute/oas3/parameter-builders.js).   
 `securities` | `Object`. Maps security schemes to a request. Securities not defined in `spec` will be ignored. <br/><br/>*Examples*<br /><br /> *Bearer:* `{ authorized: { BearerAuth: {value: "3492342948239482398"} } }` <br /><br /> *Basic:* `{ authorized: { BasicAuth: { username: 'login', password: 'secret' } } }` <br /><br /> *ApiKey:* `{ authorized: { ApiKey: { value: '234934239' } } }` <br /><br /> *oAuth2:* `{ authorized: { oAuth2: { token: { access_token: '234934239' } } } }`
 `requestInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Request` and should return `Request`.  
 `responseInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Response` and should return `Response`.
@@ -122,14 +122,14 @@ server.listen(8080);
 
 ### Executing an operation
 
-Executing an OAS operation is as simple as calling `SwaggerClient.execute` static method.
+Executing an OAS operation is as simple as calling `OpenApiResolver.execute` static method.
 
 *Using operationId*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-SwaggerClient.execute({
+OpenApiResolver.execute({
   spec: pojoDefinition,
   operationId: 'getUserList',
   // Parameters that accepts multiple values are provided as arrays ['search1', 'search2'].
@@ -143,9 +143,9 @@ SwaggerClient.execute({
 *Using unique pathName + method combination*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-SwaggerClient.execute({
+OpenApiResolver.execute({
   spec: pojoDefinition,
   pathName: '/users',
   method: 'get',
@@ -165,7 +165,7 @@ Using AbortController, you can easily implement request timeouts.
 AbortController needs to be introduced in Node.js environment via [abort-controller](https://www.npmjs.com/package/abort-controller) npm package.
 
 ```js
-const SwaggerClient = require('swagger-client');
+const OpenApiResolver = require('openapi-resolver');
 const AbortController = require('abort-controller');
 
 const controller = new AbortController();
@@ -176,7 +176,7 @@ const timeout = setTimeout(() => {
 
 (async () => {
   try {
-    await SwaggerClient.execute({
+    await OpenApiResolver.execute({
       spec,
       pathName: '/users',
       method: 'get',
@@ -202,7 +202,7 @@ No need to install it explicitly.
 ```html
 <html>
   <head>
-    <script src="//unpkg.com/swagger-client"></script>
+    <script src="//unpkg.com/openapi-resolver"></script>
     <script>
         const controller = new AbortController();
         const { signal } = controller;
@@ -212,7 +212,7 @@ No need to install it explicitly.
 
         (async () => {
           try {
-            await SwaggerClient.execute({
+            await OpenApiResolver.execute({
               spec,
               pathName: '/users',
               method: 'get',
@@ -238,13 +238,13 @@ No need to install it explicitly.
 
 #### Alternate API
 
-It's also possible to call `execute` method from `SwaggerClient` instance.
+It's also possible to call `execute` method from `OpenApiResolver` instance.
 
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ spec: pojoDefinition, authorizations: { BearerAuth: "3492342948239482398" } })
+new OpenApiResolver({ spec: pojoDefinition, authorizations: { BearerAuth: "3492342948239482398" } })
   .then(
     client => client.execute({
       operationId: 'getUserList',
@@ -258,9 +258,9 @@ new SwaggerClient({ spec: pojoDefinition, authorizations: { BearerAuth: "3492342
 You can build a `Request` object from an OAS operation and feed it later to the [HTTP Client](http-client.md).
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-const request = SwaggerClient.buildRequest({
+const request = OpenApiResolver.buildRequest({
   spec: pojoDefinition,
   operationId: 'getUserList',
   parameters: { q: 'search string' },
@@ -279,5 +279,5 @@ const request = SwaggerClient.buildRequest({
  * }
  */
 
-SwaggerClient.http(request); // => Promise.<Response>
+OpenApiResolver.http(request); // => Promise.<Response>
 ``` 

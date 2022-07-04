@@ -10,7 +10,7 @@ or as URL that points to the OpenAPI definition file.
 ### POJO usage
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pojoDefinition = {
   a: 1,
@@ -19,7 +19,7 @@ const pojoDefinition = {
   }
 };
 
-SwaggerClient.resolve({ spec: pojoDefinition }); 
+OpenApiResolver.resolve({ spec: pojoDefinition }); 
 /**
  * Promise({
  *   spec: {
@@ -37,9 +37,9 @@ Provided url will be resolved as OpenAPI definition. Then the algorithm works
 recursively and resolves all `JSON-References` inside the resolved OpenAPI definition.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-SwaggerClient.resolve({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml'});
+OpenApiResolver.resolve({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml'});
 /**
  * Promise({
  *   spec: ...resolved pet store...,
@@ -57,7 +57,7 @@ When JSON-References points to a remote document protected by authentication,
 `requestInterceptor` option can be used to provide request authentication (e.g. by setting `Authentication` header).
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const requestInterceptor = request => {
   if (request.loadSpec) {
@@ -67,7 +67,7 @@ const requestInterceptor = request => {
   return request;
 };
 
-SwaggerClient.resolve({ 
+OpenApiResolver.resolve({ 
   url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml',
   requestInterceptor,
 });
@@ -83,7 +83,7 @@ Resolver can also produce errors on various problems inside OpenAPI definition.
 One of those problems can be invalid `JSON-Reference`.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pojoDefiniton = {
   a: 1,
@@ -92,7 +92,7 @@ const pojoDefiniton = {
   }
 };
 
-SwaggerClient.resolve({ spec: pojoDefiniton }); 
+OpenApiResolver.resolve({ spec: pojoDefiniton }); 
 /**
  *  Promise({
  *   "spec": {
@@ -119,13 +119,13 @@ SwaggerClient.resolve({ spec: pojoDefiniton });
 
 ##### Resolve during instantiation
 
-Along with calling `resolve` statically from a `SwaggerClient` class, resolution can
-happen during `SwaggerClient` class instantiation.
+Along with calling `resolve` statically from a `OpenApiResolver` class, resolution can
+happen during `OpenApiResolver` class instantiation.
 
 **POJO usage**
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pojoDefinition = {
   a: 1,
@@ -134,32 +134,32 @@ const pojoDefinition = {
   }
 };
 
-new SwaggerClient({ spec: pojoDefinition }).then(swaggerClient => {
-  swaggerClient.spec;
-  swaggerClient.originalSpec;
-  swaggerClient.errors;
+new OpenApiResolver({ spec: pojoDefinition }).then(OpenApiResolver => {
+  OpenApiResolver.spec;
+  OpenApiResolver.originalSpec;
+  OpenApiResolver.errors;
 });
 ```
 
 **URL usage**
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient('https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml').then(swaggerClient => {
-  swaggerClient.spec;
-  swaggerClient.errors;
+new OpenApiResolver('https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml').then(OpenApiResolver => {
+  OpenApiResolver.spec;
+  OpenApiResolver.errors;
 });
 ```
 
 or 
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml' }).then(swaggerClient => {
-  swaggerClient.spec;
-  swaggerClient.errors;
+new OpenApiResolver({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml' }).then(OpenApiResolver => {
+  OpenApiResolver.spec;
+  OpenApiResolver.errors;
 });
 ```
 
@@ -168,7 +168,7 @@ new SwaggerClient({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-
 It's possible (as a convenience) to re-resolve your definition from `resolve` instance method.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pojoDefinition = {
   a: 1,
@@ -177,12 +177,12 @@ const pojoDefinition = {
   }
 };
 
-new SwaggerClient({ spec: pojoDefinition })
-  .then(swaggerClient => swaggerClient.resolve()) // definition will be re-resolved again
-  .then(swaggerClient => {
-    swaggerClient.spec;
-    swaggerClient.originalSpec;
-    swaggerClient.errors;
+new OpenApiResolver({ spec: pojoDefinition })
+  .then(OpenApiResolver => OpenApiResolver.resolve()) // definition will be re-resolved again
+  .then(OpenApiResolver => {
+    OpenApiResolver.spec;
+    OpenApiResolver.originalSpec;
+    OpenApiResolver.errors;
   });
 ```
 
@@ -217,7 +217,7 @@ When working with a large JSON OpenAPI definition, it's often convenient to reso
 in only part of the JSON OpenAPI definition tree. Our sub-tree resolver does exactly that.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pojoDefinition = {
   a: 1,
@@ -226,7 +226,7 @@ const pojoDefinition = {
   }
 };
 
-SwaggerClient.resolveSubtree(pojoDefinition, ['b']);
+OpenApiResolver.resolveSubtree(pojoDefinition, ['b']);
 /**
  * Promise({
  *   spec: 1,
@@ -255,12 +255,12 @@ the internal cache may cause a problem. In order to avoid this problem, it is po
 to explicitly clear the internal cache before doing resolution.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-SwaggerClient.clearCache();
-SwaggerClient.resolve({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml'}).then(swaggerClient => {
-  swaggerClient.spec;
-  swaggerClient.errors;
+OpenApiResolver.clearCache();
+OpenApiResolver.resolve({ url: 'https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/openapi.yaml'}).then(OpenApiResolver => {
+  OpenApiResolver.spec;
+  OpenApiResolver.errors;
 });
 ```  
 

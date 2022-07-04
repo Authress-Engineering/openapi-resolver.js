@@ -5,7 +5,7 @@
 - [HTTP client for OAS operations](usage/http-client-for-oas-operations.md)
 - [OpenAPI Definition Resolver](usage/openapi-definition-resolver.md)
 - [HTTP Client](usage/http-client.md)
-- [Swagger Client API](usage/api.md)
+- [OpenAPI Resolver API](usage/api.md)
 
 #### Development
 

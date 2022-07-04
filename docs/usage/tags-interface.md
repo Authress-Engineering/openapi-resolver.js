@@ -17,9 +17,9 @@ paths:
 ```
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ spec })
+new OpenApiResolver({ spec })
   .then(client => client.apis.default.getUserById(...));
 // => Promise.<Response>
 ```
@@ -34,9 +34,9 @@ paths:
 ```
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ spec })
+new OpenApiResolver({ spec })
   .then(client => client.apis.default.getOne(...));
 // => Promise.<Response>
 ```
@@ -60,9 +60,9 @@ paths:
 ```
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ spec })
+new OpenApiResolver({ spec })
   .then(client => Promise.all([
     client.apis.default.operation1(...),
     client.apis.default.operation2(...),
@@ -71,13 +71,13 @@ new SwaggerClient({ spec })
 // => Promise.<Response>
 ```
 
-Below is a list of options that `SwaggerClient` recognizes when building an internal
-representation of `Tags Interface`. These options are provided to `SwaggerClient` in following way:
+Below is a list of options that `OpenApiResolver` recognizes when building an internal
+representation of `Tags Interface`. These options are provided to `OpenApiResolver` in following way:
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ 
+new OpenApiResolver({ 
   url: 'http://petstore.swagger.io/v2/swagger.json',
   disableInterfaces: false,
   v2OperationIdCompatibilityMode: false,
@@ -94,14 +94,14 @@ Type notations are formatted like so:
 Option | Description
 --- | ---
 `disableInterfaces` | `Boolean=false`. Disables the `Tags Interface` and transformation of all operationIds into callables.
-`v2OperationIdCompatibilityMode` | `Boolean=false`. When set to `true`, `SwaggerClient` will use old algorithm for generating unique operationId names (present in version 2.x). Instead of [camel case](https://en.wikipedia.org/wiki/Camel_case) (`getOne`) the algorithm use [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles) (`get_one`).
+`v2OperationIdCompatibilityMode` | `Boolean=false`. When set to `true`, `OpenApiResolver` will use old algorithm for generating unique operationId names (present in version 2.x). Instead of [camel case](https://en.wikipedia.org/wiki/Camel_case) (`getOne`) the algorithm use [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles) (`get_one`).
 `authorizations` | `Object=undefined`. Maps security schemes to a request. Securities not defined in `spec` will be ignored. <br/><br/>*Examples*<br /><br /> *Bearer:* `{ BearerAuth: {value: "3492342948239482398"} }` <br /><br /> *Basic:* `{ BasicAuth: { username: 'login', password: 'secret' } }` <br /><br /> *ApiKey:* `{ ApiKey: { value: '234934239' } }` <br /><br /> *oAuth2:* `{ oAuth2: { token: { access_token: '234934239' } } }`
 `requestInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Request` and should return `Request`.  
 `responseInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Response` and should return `Response`.
 `userFetch` | `Function=cross-fetch`. Custom **asynchronous** fetch function that accepts two arguments: the `url` and the `Request` object and must return a [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object.
 `skipNormalization` | `Boolean=false`. Normalization creates unique operationIds when explicit operationIds are duplicates, and preserve originals.
 
-> *__Note:__ for more information about [requestInterceptor](http-client.md#request-interceptor), [responseInterceptor](http-client.md#response-interceptor) and [userFetch](https://github.com/swagger-api/swagger-js/blob/master/docs/usage/http-client.md#custom-fetch), please refer to the [HTTP Client](http-client.md) documentation.*
+> *__Note:__ for more information about [requestInterceptor](http-client.md#request-interceptor), [responseInterceptor](http-client.md#response-interceptor) and [userFetch](https://github.com/rhosys/openapi-resolver.js/blob/master/docs/usage/http-client.md#custom-fetch), please refer to the [HTTP Client](http-client.md) documentation.*
 
 ### Options override
 
@@ -112,7 +112,7 @@ Along with that it can carry additional data for [OpenApi 3.x calls](tags-interf
 *Here is an example of overriding `requestInterceptor` on single callable OAS operationId basis.*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const topLevelRequestInterceptor = (req) => {
   console.log('executing top level request interceptor');
@@ -124,7 +124,7 @@ const interfaceLevelRequestInterceptor = (req) => {
   return req;
 };
 
-new SwaggerClient({
+new OpenApiResolver({
   url: 'http://petstore.swagger.io/v2/swagger.json',
   requestInterceptor: topLevelRequestInterceptor,
 }).then((client) =>
@@ -140,7 +140,7 @@ new SwaggerClient({
 *Here is an example of appending additional `requestInterceptor` to existing request interceptors.*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pipeP = (...fns) => (args) => fns.reduce((arg, fn) => arg.then(fn), Promise.resolve(args));
 
@@ -154,7 +154,7 @@ const interfaceLevelRequestInterceptor = (req) => {
   return req;
 };
 
-new SwaggerClient({
+new OpenApiResolver({
   url: 'http://petstore.swagger.io/v2/swagger.json',
   requestInterceptor: topLevelRequestInterceptor,
 }).then((client) =>
@@ -175,9 +175,9 @@ To learn more about request interceptor composition, checkout [HTTP Client](http
 ### OpenAPI v2.x
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ 
+new OpenApiResolver({ 
   url: 'http://petstore.swagger.io/v2/swagger.json',
   authorizations: { petstore_auth: { token: { access_token: '234934239' } } },
  })
@@ -203,9 +203,9 @@ but you may need to provide additional data in an `Options` object for server va
 and request bodies, since these items are not actual parameters:
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-new SwaggerClient({ spec, authorizations: { petstore_auth: { token: { access_token: '234934239' } } } })
+new OpenApiResolver({ spec, authorizations: { petstore_auth: { token: { access_token: '234934239' } } } })
   .then(client => 
     client
      .apis
@@ -234,11 +234,11 @@ new SwaggerClient({ spec, authorizations: { petstore_auth: { token: { access_tok
 ```js
 const fs = require('fs')
 const path = require('path')
-const SwaggerClient = require('swagger-client');
+const OpenApiResolver = require('openapi-resolver');
 
 const myPetImage = fs.createReadStream(path.join(__dirname, 'myPet.jpg'))
 
-SwaggerClient({ url: 'http://petstore.swagger.io/v2/swagger.json' })
+OpenApiResolver({ url: 'http://petstore.swagger.io/v2/swagger.json' })
   .then(client => client.apis.pet.uploadFile({
     petId: 256256,
     file: myPetImage
@@ -250,12 +250,12 @@ SwaggerClient({ url: 'http://petstore.swagger.io/v2/swagger.json' })
 ```html
 <html>
   <head>
-    <script src="//unpkg.com/swagger-client"></script>
+    <script src="//unpkg.com/openapi-resolver"></script>
     <script>
       const aFileParts = [93048032489, 98389384239, 23498324239]; // an array consisting of image bytes
       const myPetImage = new Blob(aFileParts, { type : 'image/jpeg' }); // the blob
 
-      SwaggerClient({ url: 'http://petstore.swagger.io/v2/swagger.json' })
+      OpenApiResolver({ url: 'http://petstore.swagger.io/v2/swagger.json' })
         .then(client => client.apis.pet.uploadFile({
           petId: 256256,
           file: myPetImage.stream()
@@ -279,7 +279,7 @@ Using AbortController, you can easily implement request timeouts.
 AbortController needs to be introduced in Node.js environment via [abort-controller](https://www.npmjs.com/package/abort-controller) npm package.
 
 ```js
-const SwaggerClient = require('swagger-client');
+const OpenApiResolver = require('openapi-resolver');
 const AbortController = require('abort-controller');
 
 const controller = new AbortController();
@@ -290,7 +290,7 @@ const timeout = setTimeout(() => {
 
 (async () => {
   try {
-    await new SwaggerClient({ spec })
+    await new OpenApiResolver({ spec })
       .then(client => client.apis.default.getUserList({}, { signal }))
   } catch (error) {
     if (error.name === 'AbortError') {
@@ -310,7 +310,7 @@ No need to install it explicitly.
 ```html
 <html>
   <head>
-    <script src="//unpkg.com/swagger-client"></script>
+    <script src="//unpkg.com/openapi-resolver"></script>
     <script>
         const controller = new AbortController();
         const { signal } = controller;
@@ -320,7 +320,7 @@ No need to install it explicitly.
 
         (async () => {
           try {
-            await new SwaggerClient({ spec })
+            await new OpenApiResolver({ spec })
               .then(client => client.apis.default.getUserList({}, { signal }))
           } catch (error) {
             if (error.name === 'AbortError') {

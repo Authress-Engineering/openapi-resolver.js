@@ -15,7 +15,7 @@ about: Ask a question or request help with your implementation.
  - OS: [e.g. macOS]
  - Environment: [e.g. Chrome 59, Node.js v10.0.0]
  - Method of installation: [e.g. npm, unpkg]
- - Swagger-Client version: [e.g. 3.8.0]
+ - OpenApi Resolver version: [e.g. 3.8.0]
  - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0]
 
 ### Content & configuration
@@ -26,9 +26,9 @@ Swagger/OpenAPI definition:
 # your YAML here
 ```
 
-Swagger-Client usage:
+OpenAPI Resolver usage:
 ```js
-SwaggerClient({
+OpenApiResolver({
   // your config options here
 })
 ```

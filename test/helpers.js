@@ -21,7 +21,7 @@ describe('helpers', () => {
         idFromPathMethod(path, method, {
           v2OperationIdCompatibilityMode: true,
         });
-      // https://github.com/swagger-api/swagger-js/issues/1269#issue-309070070
+      // https://github.com/rhosys/openapi-resolver.js/issues/1269#issue-309070070
       expect(fn('/foo/{bar}/baz', 'get')).toEqual('get_foo_bar_baz');
 
       expect(fn('/one/{foo}/{bar}', 'get')).toEqual('get_one_foo_bar');

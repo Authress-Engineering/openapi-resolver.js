@@ -11,9 +11,9 @@ about: Suggest an new feature or enhancement for this project
  # your YAML here
  ```
 
- Swagger-Client usage:
+ OpenAPI Resolver usage:
  ```js
- SwaggerClient({
+ OpenApiResolver({
    // your config options here
  })
  ```

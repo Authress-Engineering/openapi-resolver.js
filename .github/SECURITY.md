@@ -1,12 +1,12 @@
 # Security Policy
 
-If you believe you've found an exploitable security issue in Swagger Client,
+If you believe you've found an exploitable security issue in OpenAPI Resolver,
 **please don't create a public issue**. 
 
 
 ## Supported versions
 
-This is the list of versions of `swagger-client` which are
+This is the list of versions of `openapi-resolver` which are
 currently being supported with security updates.
 
 | Version  | Supported          | Notes                  |

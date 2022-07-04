@@ -10,12 +10,12 @@ about: Report an issue you're experiencing
   Before you submit, please read the following:
 
   If you're here to report a security issue, please STOP writing an issue and
-  contact us at security@swagger.io instead!
+  contact us at security@rhosys.ch instead!
 
   Search open/closed issues before submitting!
 
-  Issues on GitHub are only related to problems of Swagger-Client itself. We'll
-  try to offer support here for your use case, but we can't offer help with projects that use Swagger-Client indirectly.
+  Issues on GitHub are only related to problems of OpenAPI Resolver itself. We'll
+  try to offer support here for your use case, but we can't offer help with projects that use OpenAPI Resolver indirectly.
 
   Likewise, we can't accept bugs in the Swagger/OpenAPI specifications themselves, or anything that violates the specifications.
 -->
@@ -24,8 +24,8 @@ about: Report an issue you're experiencing
  - OS: [e.g. macOS]
  - Environment: [e.g. Chrome 59, Node.js v10.0.0]
  - Method of installation: [e.g. npm, unpkg]
- - Swagger-Client version: [e.g. 3.8.0]
- - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0]
+ - OpenAPI Resolver version: [e.g. 3.8.0]
+ - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0, OpenAPI 3.1]
 
 ### Content & configuration
 <!--
@@ -38,9 +38,9 @@ Swagger/OpenAPI definition:
 # your YAML here
 ```
 
-Swagger-Client usage:
+OpenAPI Resolver usage:
 ```js
-SwaggerClient({
+OpenApiResolver({
   // your config options here
 })
 ```

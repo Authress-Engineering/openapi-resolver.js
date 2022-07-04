@@ -29,9 +29,9 @@ const browser = {
   },
   output: {
     path: path.resolve('./dist'),
-    filename: 'swagger-client.browser.js',
+    filename: 'openapi-resolver.browser.js',
     libraryTarget: 'umd',
-    library: 'SwaggerClient',
+    library: 'OpenApiResolver',
     libraryExport: 'default',
     globalObject: 'window',
   },
@@ -54,9 +54,9 @@ const browser = {
       // display full duplicates information? (Default: `false`)
       verbose: true,
     }),
-    new WebpackBundleSizeAnalyzerPlugin('swagger-client.browser-sizes.txt'),
+    new WebpackBundleSizeAnalyzerPlugin('openapi-resolver.browser-sizes.txt'),
     new StatsWriterPlugin({
-      filename: path.join('swagger-client.browser-stats.json'),
+      filename: path.join('openapi-resolver.browser-stats.json'),
       fields: null,
     }),
   ],
@@ -79,9 +79,9 @@ const browserMin = {
   },
   output: {
     path: path.resolve('./dist'),
-    filename: 'swagger-client.browser.min.js',
+    filename: 'openapi-resolver.browser.min.js',
     libraryTarget: 'umd',
-    library: 'SwaggerClient',
+    library: 'OpenApiResolver',
     libraryExport: 'default',
     globalObject: 'window',
   },

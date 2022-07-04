@@ -7,7 +7,7 @@ performs response & header serialization.
 Here is a simple example how to make `POST` HTTP request:
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/post',
@@ -19,13 +19,13 @@ const request = {
   },
 };
 
-SwaggerClient.http(request); // => Promise(Response)
+OpenApiResolver.http(request); // => Promise(Response)
 ```
 
 Here is an example how to make `POST` HTTP request via [Fetch compatible interface](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const url = 'https://httpbin.org/post';
 const request = {
@@ -38,7 +38,7 @@ const request = {
   },
 };
 
-SwaggerClient.http(url, request); // => Promise(Response)
+OpenApiResolver.http(url, request); // => Promise(Response)
 ```
 
 ### Request
@@ -84,7 +84,7 @@ Type notations are formatted like so:
 Property | Description
 --- | ---
 `query` | `Object=null`. When provided, HTTP Client serialize it and appends the `queryString` to `Request.url` property.
-`loadSpec` | `Boolean=undefined`. This property will be present and set to `true` when the `Request` was constructed internally by `SwaggerClient` to fetch the OAS definition defined by `url` or when resolving remote JSON References.
+`loadSpec` | `Boolean=undefined`. This property will be present and set to `true` when the `Request` was constructed internally by `OpenApiResolver` to fetch the OAS definition defined by `url` or when resolving remote JSON References.
 `requestInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Request` and should return `Request`.  
 `responseInterceptor` | `Function=identity`. Either synchronous or asynchronous function transformer that accepts `Response` and should return `Response`.
 `userFetch` | `Function=cross-fetch`. Custom **asynchronous** fetch function that accepts two arguments: the `url` and the `Request` object and must return a [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object.
@@ -98,7 +98,7 @@ are serialized and appended to `Request.url` property as query string.
 *Basic example:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/?one=1&two=1',
@@ -113,14 +113,14 @@ const request = {
   method: 'GET',
 };
 
-SwaggerClient.http(request);
+OpenApiResolver.http(request);
 // Requested URL: https://httpbin.org/?one=1&two=2&three=3
 ```
 
 *Advanced example:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
@@ -135,24 +135,24 @@ const request = {
   method: 'GET',
 };
 
-SwaggerClient.http(request);
+OpenApiResolver.http(request);
 // Requested URL: https://httpbin.org/?anotherOne=one,two&evenMore=hi&bar=1%202%203
 ```
 
 ##### Loading specification
 
-`loadSpec` property signals when the Request was constructed implicitly by `SwaggerClient`.
+`loadSpec` property signals when the Request was constructed implicitly by `OpenApiResolver`.
 This can happen in only two circumstances.
 
-1. When `SwaggerClient` fetches the OAS definition specified by `url` 
-2. When `SwaggerClient` resolves the OAS definition by fetching remote JSON References
+1. When `OpenApiResolver` fetches the OAS definition specified by `url` 
+2. When `OpenApiResolver` resolves the OAS definition by fetching remote JSON References
 
 All other requests will not have this property present, or the property will be set to `false`.
 
 *This following code snippet*:
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const requestInterceptor = (request) => {
   console.log(request);
@@ -160,7 +160,7 @@ const requestInterceptor = (request) => {
   return request;
 };
 
-SwaggerClient({ url: 'https://petstore.swagger.io/v2/swagger.json', requestInterceptor })
+OpenApiResolver({ url: 'https://petstore.swagger.io/v2/swagger.json', requestInterceptor })
   .then(client => client.execute({
       operationId: "findPetsByStatus",
       parameters: { status: 3 },
@@ -201,7 +201,7 @@ can be defined as synchronous (transformer) or asynchronous function (allows oth
 *Transformer usage:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
@@ -212,26 +212,26 @@ const request = {
   },
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 // Requested URL: https://httpbin.org/?param=value
 ```
 
 *Async operation usage:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
   method: 'GET',
   requestInterceptor: async req => {
-    const { body: { idToken } } = await SwaggerClient.http({ url: 'https://identity.com/idtoken.json' });
+    const { body: { idToken } } = await OpenApiResolver.http({ url: 'https://identity.com/idtoken.json' });
     req.url += `?idToken=${idToken}`;
     return req;
   },
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 // Requested URL: https://httpbin.org/?idToken=2342398423948923
 ```
 
@@ -239,7 +239,7 @@ You're not limited to using one Request interceptor function. You can easily
 compose `pipe` of request interceptors.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pipeP = (...fns) => args => fns.reduce((arg, fn) => arg.then(fn), Promise.resolve(args))
 
@@ -258,7 +258,7 @@ const request = {
   requestInterceptor: pipeP(interceptor1, interceptor2),
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 // Requested URL: https://httpbin.org/?param1=value1&param2=value2
 ```
 
@@ -293,7 +293,7 @@ Response interceptor can be defined as synchronous (transformer) or asynchronous
 *Transformer usage:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
@@ -304,7 +304,7 @@ const request = {
   },
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 /**
  * Promise({
  *   ok: true,
@@ -324,19 +324,19 @@ SwaggerClient.http(request);
 *Async operation usage:*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
   method: 'GET',
   responseInterceptor: async res => {
-    const { body: { idToken } } = await SwaggerClient.http({ url: 'https://identity.com/idtoken.json' });
+    const { body: { idToken } } = await OpenApiResolver.http({ url: 'https://identity.com/idtoken.json' });
     res.idToken = idToken;
     return res;
   },
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 /**
  * Promise({
  *   ok: true,
@@ -357,7 +357,7 @@ You're not limited to using one Response interceptor function. You can easily
 compose `pipe` of response interceptors.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const pipeP = (...fns) => args => fns.reduce((arg, fn) => arg.then(fn), Promise.resolve(args))
 
@@ -376,7 +376,7 @@ const request = {
   responseInterceptor: pipeP(interceptor1, interceptor2),
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 /**
  * Promise({
  *   ok: true,
@@ -403,7 +403,7 @@ In order to access original `Request` in `responseInterceptor` you have to decla
 By doing so, the interceptor will be bound to the original `Request`.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
@@ -418,7 +418,7 @@ const request = {
   },
 };
 
-SwaggerClient.http(request); 
+OpenApiResolver.http(request); 
 ```
 
 > *__Note:__ this will not work if [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) are used to define a `responseInterceptor`.*
@@ -452,14 +452,14 @@ or CORS is misconfigured on the server-side, although this usually means permiss
 or similar. 
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
   method: 'GET',
 };
 
-SwaggerClient.http(request); // network problem or CORS misconfiguration
+OpenApiResolver.http(request); // network problem or CORS misconfiguration
 /**
  * Rejected promise will be returned.
  *
@@ -473,14 +473,14 @@ HTTP Client will reject all responses with `ok` field set to `false` -  status o
 This is another distinction from standard `Fetch API`.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/non-existing-path',
   method: 'GET',
 };
 
-SwaggerClient.http(request);
+OpenApiResolver.http(request);
 /**
  * Rejected promise will be returned.
  *
@@ -509,7 +509,7 @@ If you defined `responseInterceptor` on `Request` object, it can theoretically p
 When it happens HTTP Client will produce a rejected promise with following signature:
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
 const request = {
   url: 'https://httpbin.org/',
@@ -517,7 +517,7 @@ const request = {
   responseInterceptor: () => { throw new Error('error'); },
 };
 
-SwaggerClient.http(request);
+OpenApiResolver.http(request);
 /**
  * Rejected promise will be returned.
  *
@@ -536,7 +536,7 @@ HTTP client allows you to override the behavior of how it makes actual HTTP Requ
 by supplying an asynchronous function under the property called `userFetch` in `Request` object.
 
 **Warning:** `userFetch` function must return instance of [Fetch Compatible Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) class or
-a compatible object of expected shape or behavior.  After importing the `SwaggerClient`
+a compatible object of expected shape or behavior.  After importing the `OpenApiResolver`
 in your current module, the `Response` symbol will be available in the current scope. 
 
 ###### Example 1.)
@@ -544,7 +544,7 @@ in your current module, the `Response` symbol will be available in the current s
 *Using [axios](https://github.com/axios/axios) library as override.*
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 import axios from 'axios';
 
 const request = {
@@ -561,7 +561,7 @@ const request = {
   },
 };
 
-SwaggerClient.http(request);
+OpenApiResolver.http(request);
 ```
 ###### Example 2.)
 
@@ -570,7 +570,7 @@ SwaggerClient.http(request);
 ```html
 <html>
   <head>
-    <script src="//unpkg.com/swagger-client"></script>
+    <script src="//unpkg.com/openapi-resolver"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
     <script>
       const request = {
@@ -592,7 +592,7 @@ SwaggerClient.http(request);
         },
       };
 
-      SwaggerClient.http(request);
+      OpenApiResolver.http(request);
     </script>
   </head>
   <body>
@@ -621,9 +621,9 @@ If you need to activate CORS globally for every request, just enable it by `with
 When enabled, it automatically sets `credentials="include"` on every request implicitly for you.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-SwaggerClient.http.withCredentials = true;
+OpenApiResolver.http.withCredentials = true;
 ```
 
 #### Request cancellation with AbortSignal
@@ -637,7 +637,7 @@ Using AbortController, you can easily implement request timeouts.
 AbortController needs to be introduced in Node.js environment via [abort-controller](https://www.npmjs.com/package/abort-controller) npm package.
 
 ```js
-const SwaggerClient = require('swagger-client');
+const OpenApiResolver = require('openapi-resolver');
 const AbortController = require('abort-controller');
 
 const controller = new AbortController();
@@ -648,7 +648,7 @@ const timeout = setTimeout(() => {
 
 (async () => {
   try {
-    await SwaggerClient.http({ url: 'https://www.google.com', signal });
+    await OpenApiResolver.http({ url: 'https://www.google.com', signal });
   } catch (error) {
     if (error.name === 'AbortError') {
       console.error('request was aborted');
@@ -667,7 +667,7 @@ No need to install it explicitly.
 ```html
 <html>
   <head>
-    <script src="//unpkg.com/swagger-client"></script>
+    <script src="//unpkg.com/openapi-resolver"></script>
     <script>
         const controller = new AbortController();
         const { signal } = controller;
@@ -677,7 +677,7 @@ No need to install it explicitly.
 
         (async () => {
           try {
-            await SwaggerClient.http({ url: 'https://www.google.com', signal });
+            await OpenApiResolver.http({ url: 'https://www.google.com', signal });
           } catch (error) {
             if (error.name === 'AbortError') {
               console.error('request was aborted');
@@ -696,11 +696,11 @@ No need to install it explicitly.
 
 #### Alternate API
 
-It's also possible (for convenience) to call HTTP Client from `SwaggerClient` instances.
+It's also possible (for convenience) to call HTTP Client from `OpenApiResolver` instances.
 
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 
-const { client } = new SwaggerClient({ spec: 'http://petstore.swagger.io/v2/swagger.json' });
+const { client } = new OpenApiResolver({ spec: 'http://petstore.swagger.io/v2/swagger.json' });
 client.http(request);
 ```

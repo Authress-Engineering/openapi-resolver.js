@@ -1,5 +1,5 @@
-# Swagger Client
+# OpenAPI Resolver
 
-Welcome to the Swagger Client documentation!
+Welcome to the OpenAPI Resolver documentation!
 
 A table of contents can be found at [SUMMARY.md](SUMMARY.md).

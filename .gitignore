@@ -7,7 +7,6 @@ sessions/
 *.iml
 *.sublime-project
 *.sublime-workspace
-swagger-ux/
 junit-reports/
 coverage/
 build-info.json
@@ -23,7 +22,7 @@ notes/
 .deps_check
 test/specmap/data/private
 test/webpack-bundle/.tmp
-/swagger-client-*.*.*.tgz
+/openapi-resolver-*.*.*.tgz
 jest-stare
 
 # Automated releases

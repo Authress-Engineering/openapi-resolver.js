@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import SwaggerClient from '../../dist/swagger-client.browser.js';
-import SwaggerClientMin from '../../dist/swagger-client.browser.min.js';
+import SwaggerClient from '../../dist/openapi-resolver.browser.js';
+import SwaggerClientMin from '../../dist/openapi-resolver.browser.min.js';
 
 describe('webpack browser umd build', () => {
   test('should export a function', () => {
@@ -59,7 +59,7 @@ describe('webpack browser umd build', () => {
   });
 
   test('should not contain references to `new Promise`', () => {
-    const bundlePath = path.join(__dirname, '../../dist/swagger-client.browser.js');
+    const bundlePath = path.join(__dirname, '../../dist/openapi-resolver.browser.js');
     const src = fs.readFileSync(bundlePath).toString();
 
     expect(src).not.toMatch(/new Promise\s*\(/);

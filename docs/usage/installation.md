@@ -4,39 +4,39 @@
 
 ### NPM Registry
 
-We publish single module to npm: [swagger-client](https://www.npmjs.com/package/swagger-client).
-`swagger-client` is meant for consumption by any JavaScript engine (node.js, browser, etc...).
+We publish single module to npm: [openapi-resolver](https://www.npmjs.com/package/openapi-resolver).
+`openapi-resolver` is meant for consumption by any JavaScript engine (node.js, browser, etc...).
 The npm package contains transpiled and minified ES5 compatible code.
 
 ```shell script
- $ npm install swagger-client
+ $ npm install openapi-resolver
 ``` 
 
 After installed successfully:
 
 [ES6 imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
 ```js
-import SwaggerClient from 'swagger-client';
+import OpenApiResolver from 'openapi-resolver';
 ```
 
 [CommonJS imports](https://en.wikipedia.org/wiki/CommonJS)
 ```js
-const SwaggerClient = require('swagger-client');
+const OpenApiResolver = require('openapi-resolver');
 ```
 
 ### unpkg
 
-You can embed Swagger UI's code directly in your HTML by using [unpkg's](https://unpkg.com/) interface.
+You can embed OpenAPI Resolver UI's code directly in your HTML by using [unpkg's](https://unpkg.com/) interface.
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>SwaggerClient test</title>
-    <script src="https://unpkg.com/swagger-client"></script>
+    <title>OpenApiResolver test</title>
+    <script src="https://unpkg.com/openapi-resolver"></script>
     <script>
-      new SwaggerClient('http://petstore.swagger.io/v2/swagger.json')
+      new OpenApiResolver('http://petstore.swagger.io/v2/swagger.json')
         .then(
           client => client.apis.pet.addPet({ id: 1, body: { name: "bobby" } }),
           reason => console.error('failed to load the spec: ' + reason)

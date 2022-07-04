@@ -70,6 +70,9 @@ function applyPatch(obj, patch, opts) {
     }
     obj = value;
   } else {
+    var resolvedValue = getInByJsonPath(obj, patch.path);
+    Object.assign(patch.value, resolvedValue);
+    delete patch.value.$ref;
     jsonPatch.applyPatch(obj, [patch]);
 
     // Attach metadata to the resulting value.

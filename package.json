@@ -1,7 +1,7 @@
 {
-  "name": "swagger-client",
-  "version": "3.18.5",
-  "description": "SwaggerJS - a collection of interfaces for OAI specs",
+  "name": "openapi-resolver",
+  "version": "0.0.0",
+  "description": "Open API Resolver - Javascript library to connect to parse and resolve openapi-enabled APIs via browser or nodejs",
   "browser": {
     "./src/http/fold-formdata-to-request.node.js": "./src/http/fold-formdata-to-request.browser.js",
     "./lib/http/fold-formdata-to-request.node.js": "./lib/http/fold-formdata-to-request.browser.js",
@@ -13,15 +13,10 @@
   "main": "lib/commonjs.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
-  "unpkg": "dist/swagger-client.browser.min.js",
-  "repository": "git@github.com:swagger-api/swagger-js.git",
+  "unpkg": "dist/openapi-resolver.browser.min.js",
+  "repository": "git@github.com:rhosys/openapi-resolver.js.git",
   "contributors": [
-    "(in alphabetical order)",
-    "Anna Bodnia <anna.bodnia@gmail.com>",
-    "Buu Nguyen <buunguyen@gmail.com>",
-    "Josh Ponelat <jponelat@gmail.com>",
-    "Kyle Shockey <kyleshockey1@gmail.com>",
-    "Sahar Jafari <shr.jafari@gmail.com>"
+    "Rhosys Developers <developers@rhosys.ch>"
   ],
   "files": [
     "LICENSE",
@@ -30,9 +25,9 @@
     "package.json",
     "lib",
     "es",
-    "dist/swagger-client.browser.js",
-    "dist/swagger-client.browser.min.js",
-    "dist/swagger-client.browser.min.js.map"
+    "dist/openapi-resolver.browser.js",
+    "dist/openapi-resolver.browser.min.js",
+    "dist/openapi-resolver.browser.min.js.map"
   ],
   "config": {
     "deps_check_dir": ".deps_check"
@@ -58,6 +53,8 @@
   },
   "keywords": [
     "oai",
+    "openapi",
+    "openapi spec",
     "swagger",
     "js",
     "spec",
