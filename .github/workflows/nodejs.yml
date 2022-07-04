@@ -31,7 +31,7 @@ jobs:
         key: node-modules-${{ hashFiles('package-lock.json') }}
     - name: Install dependencies
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: yarn --frozen-lockfile
     - name: Lint commit message
       if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
       run: git log -1 --pretty=format:"%s" | npx commitlint
@@ -69,7 +69,7 @@ jobs:
         key: node-modules-${{ hashFiles('yarn.lock') }}
     - name: Install dependencies
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: npm ci
+      run: yarn --frozen-lockfile
 
     - name: Download commonjs build artifacts
       uses: actions/download-artifact@v1
