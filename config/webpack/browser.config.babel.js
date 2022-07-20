@@ -91,6 +91,10 @@ const browserMin = {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.json'],
+    fallback: {
+      http: require.resolve('stream-http'),
+      buffer: require.resolve('buffer'),
+    },
   },
   module,
   plugins: [

@@ -1,8 +1,6 @@
 import $RefParser from '@apidevtools/json-schema-ref-parser';
 import jsYaml from 'js-yaml';
 
-// import Swagger from '../../src/index.js';
-
 async function resolver(specUrlOrObject) {
   if (typeof specUrlOrObject === 'object') {
     if (typeof specUrlOrObject.href === 'string') {
