@@ -1,11 +1,6 @@
 import AbortController from 'abort-controller';
 
-import {
-  mapTagOperations,
-  makeApisTagOperationsOperationExecute,
-  makeApisTagOperation,
-  self as stubs,
-} from '../src/interfaces.js';
+import { mapTagOperations, makeApisTagOperation, self as stubs } from '../src/interfaces.js';
 
 describe('intefaces', () => {
   afterEach(() => {
@@ -68,96 +63,6 @@ describe('intefaces', () => {
 
       expect(interfaceValue.apis.me.getMe).toBeInstanceOf(Function);
       expect(interfaceValue.apis.default.putMe).toBeInstanceOf(Function);
-    });
-  });
-
-  describe('makeApisTagOperationsOperationExecute', () => {
-    test('should call mapTagOperations with { spec, cb:Function }', () => {
-      // Given
-      const spyMapTagOperations = jest.spyOn(stubs, 'mapTagOperations');
-      const spec = {};
-
-      // When
-      makeApisTagOperationsOperationExecute({ spec });
-
-      // Then
-      expect(spyMapTagOperations.mock.calls.length).toEqual(1);
-      const [arg] = spyMapTagOperations.mock.calls[0];
-      expect(arg.spec).toEqual(spec);
-      expect(arg.cb).toBeInstanceOf(Function);
-    });
-
-    test('should pass the result of makeExecute as `cb` ', () => {
-      // Given
-      const spyMapTagOperations = jest.spyOn(stubs, 'mapTagOperations');
-      const spyExecute = jest.fn();
-      makeApisTagOperationsOperationExecute({ execute: spyExecute });
-      const { cb } = spyMapTagOperations.mock.calls[0][0];
-
-      // When
-      const executer = cb({ pathName: '/one', method: 'GET' });
-      executer(['param'], { option: 1 });
-
-      // Then
-      expect(spyExecute.mock.calls.length).toEqual(1);
-      expect(spyExecute.mock.calls[0][0]).toEqual({
-        spec: undefined,
-        operationId: undefined,
-        method: 'GET',
-        option: 1,
-        parameters: ['param'],
-        pathName: '/one',
-      });
-    });
-
-    test('should pass signal option to execute', () => {
-      // Given
-      const spyMapTagOperations = jest.spyOn(stubs, 'mapTagOperations');
-      const spyExecute = jest.fn();
-      makeApisTagOperationsOperationExecute({ execute: spyExecute });
-      const { cb } = spyMapTagOperations.mock.calls[0][0];
-
-      // When
-      const controller = new AbortController();
-      const { signal } = controller;
-      const executer = cb({ pathName: '/one', method: 'GET' });
-      executer(['param'], { signal });
-
-      // Then
-      expect(spyExecute.mock.calls.length).toEqual(1);
-      expect(spyExecute.mock.calls[0][0]).toEqual({
-        spec: undefined,
-        operationId: undefined,
-        method: 'GET',
-        parameters: ['param'],
-        pathName: '/one',
-        signal,
-      });
-    });
-
-    test('should map tagOperations to execute', () => {
-      const interfaceValue = makeApisTagOperationsOperationExecute({
-        spec: {
-          paths: {
-            '/one': {
-              get: {
-                tags: ['me'],
-                operationId: 'getMe',
-              },
-              put: { operationId: 'putMe' },
-            },
-          },
-        },
-      });
-
-      expect(interfaceValue).toMatchObject({
-        apis: {
-          default: { operations: {} },
-          me: { operations: {} },
-        },
-      });
-
-      expect(interfaceValue.apis.me.operations.getMe.execute).toBeInstanceOf(Function);
     });
   });
 

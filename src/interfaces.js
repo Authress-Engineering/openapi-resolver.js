@@ -29,34 +29,6 @@ export function makeExecute(swaggerJs = {}) {
     };
 }
 
-// Creates an interface with tags+operations = execute
-// The shape
-// { apis: { [tag]: { operations: [operation]: { execute }}}}
-// NOTE: this is mostly for compatibility
-export function makeApisTagOperationsOperationExecute(swaggerJs = {}) {
-  // { apis: tag: operations: execute }
-  const cb = self.makeExecute(swaggerJs);
-  const tagOperations = self.mapTagOperations({
-    v2OperationIdCompatibilityMode: swaggerJs.v2OperationIdCompatibilityMode,
-    spec: swaggerJs.spec,
-    cb,
-  });
-
-  const apis = {};
-  // eslint-disable-next-line no-restricted-syntax, guard-for-in
-  for (const tag in tagOperations) {
-    apis[tag] = {
-      operations: {},
-    };
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const op in tagOperations[tag]) {
-      apis[tag].operations[op] = { execute: tagOperations[tag][op] };
-    }
-  }
-
-  return { apis };
-}
-
 // .apis[tag][operationId]:ExecuteFunction interface
 export function makeApisTagOperation(swaggerJs = {}) {
   const cb = self.makeExecute(swaggerJs);

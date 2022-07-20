@@ -16,31 +16,43 @@ OpenAPI Resolver Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
 3.10.x | 2020-01-17 | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 |
 
-## Documentation
+## Installation
 
-#### Usage
+We publish single module to npm: [openapi-resolver](https://www.npmjs.com/package/openapi-resolver).
+`openapi-resolver` is meant for consumption by any JavaScript engine (node.js, browser, etc...).
+The npm package contains transpiled and minified ES5 compatible code.
 
-- [Installation](docs/usage/installation.md)
-- [Tags Interface](docs/usage/tags-interface.md)
-- [HTTP client for OAS operations](docs/usage/http-client-for-oas-operations.md)
-- [OpenAPI Definition Resolver](docs/usage/openapi-definition-resolver.md)
-- [HTTP Client](docs/usage/http-client.md)
-- [OpenAPI Resolver API](docs/usage/api.md)
+```shell script
+ $ npm install openapi-resolver
+``` 
 
-#### Development
+After installed successfully:
 
-- [Contributing](./CONTRIBUTING.md)
-- [Setting up](docs/development/setting-up.md)
-- [Scripts](docs/development/scripts.md)
+[ES6 imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+```js
+import OpenApiResolver from 'openapi-resolver';
+```
 
-#### Migrations 
+[CommonJS imports](https://en.wikipedia.org/wiki/CommonJS)
+```js
+const OpenApiResolver = require('openapi-resolver');
+```
 
-- [Migration guide](docs/migration/migration-2-x-to-3-x.md)
-- [Graveyard](docs/migration/graveyard-3-x.md)
+
+## Usage
+
+```js
+import OpenApiResolver from 'openapi-resolver';
+
+new OpenApiResolver('http://petstore.swagger.io/v2/swagger.json');
+OpenApiResolver('http://petstore.swagger.io/v2/swagger.json');
+// these two lines are equivalent
+```
+
 
 ### Runtime 
 
-- Node.js `>=` 12.4.x
+- Node.js `>=` 14.x
 - `openapi-resolver` works in the latest versions of Chrome, Safari, Firefox, and Edge.
 
 ## Security contact

@@ -1,4 +1,4 @@
-import 'cross-fetch/polyfill'; /* global fetch */
+import 'cross-fetch/polyfill';
 import jsYaml from 'js-yaml';
 import url from 'url';
 
@@ -112,7 +112,7 @@ const shouldSkipResolution = (path) => skipResolutionTestFns.some((fn) => fn(pat
  * 1. If a pointer was already resolved before in this path, halt.
  * 2. If the patch value points to one of the ancestors in this path, halt.
  *
- * Note that either one of these mechanism is sufficient, both must be in place.
+ * Note that neither one of these mechanism is sufficient, both must be in place.
  * For examples:
  *
  * Given the following spec, #1 alone is insufficient because after the 2nd
@@ -176,7 +176,7 @@ const plugin = {
           // without this, the ref plugin never stops seeing this $ref
           return null;
         }
-        return lib.replace(fullPath, absolutifiedRef);
+        return lib.mergeReplace(fullPath, absolutifiedRef);
       }
     }
 
@@ -215,7 +215,7 @@ const plugin = {
 
     const absolutifiedRef = absolutifyPointer(ref, basePath);
 
-    const patch = lib.replace(parent, promOrVal, { $$ref: absolutifiedRef });
+    const patch = lib.mergeReplace(parent, promOrVal, { $$ref: absolutifiedRef });
     if (basePath && basePath !== baseDoc) {
       return [patch, lib.context(parent, { baseDoc: basePath })];
     }

@@ -1,9 +1,11 @@
 import * as jsonPatch from 'fast-json-patch';
 import deepmerge from 'deepmerge';
+import { cloneDeep } from 'lodash';
 
 export default {
   add,
   replace,
+  mergeReplace,
   remove,
   merge,
   mergeDeep,
@@ -37,11 +39,17 @@ function applyPatch(obj, patch, opts) {
     const newValue = getInByJsonPath(obj, patch.path);
     Object.assign(newValue, patch.value);
     jsonPatch.applyPatch(obj, [replace(patch.path, newValue)]);
-  } else if (patch.op === 'mergeDeep') {
+    return obj;
+  }
+
+  if (patch.op === 'mergeDeep') {
     const currentValue = getInByJsonPath(obj, patch.path);
     const newValue = deepmerge(currentValue, patch.value);
     obj = jsonPatch.applyPatch(obj, [replace(patch.path, newValue)]).newDocument;
-  } else if (patch.op === 'add' && patch.path === '' && isObject(patch.value)) {
+    return obj;
+  }
+
+  if (patch.op === 'add' && patch.path === '' && isObject(patch.value)) {
     // { op: 'add', path: '', value: { a: 1, b: 2 }}
     // has no effect: json patch refuses to do anything.
     // so let's break that patch down into a set of patches,
@@ -57,23 +65,41 @@ function applyPatch(obj, patch, opts) {
     }, []);
 
     jsonPatch.applyPatch(obj, patches);
-  } else if (patch.op === 'replace' && patch.path === '') {
-    let { value } = patch;
+    return obj;
+  }
 
-    if (
-      opts.allowMetaPatches &&
-      patch.meta &&
-      isAdditiveMutation(patch) &&
-      (Array.isArray(patch.value) || isObject(patch.value))
-    ) {
-      value = { ...value, ...patch.meta };
+  if (patch.op === 'mergeReplace') {
+    const patchToApply = patch;
+    const resolvedValue = getInByJsonPath(obj, patchToApply.path);
+    const resolvedValueOverrides = cloneDeep(resolvedValue);
+    delete resolvedValueOverrides?.$ref;
+    delete resolvedValueOverrides?.schema;
+
+    if (patchToApply.path === '') {
+      let { value } = patchToApply;
+
+      if (
+        opts.allowMetaPatches &&
+        patchToApply.meta &&
+        isAdditiveMutation(patchToApply) &&
+        (Array.isArray(patchToApply.value) || isObject(patchToApply.value))
+      ) {
+        value = { ...value, ...patchToApply.meta };
+      }
+      obj = value;
+      return obj;
     }
-    obj = value;
-  } else {
-    var resolvedValue = getInByJsonPath(obj, patch.path);
-    Object.assign(patch.value, resolvedValue);
-    delete patch.value.$ref;
-    jsonPatch.applyPatch(obj, [patch]);
+
+    patchToApply.op = 'replace';
+    jsonPatch.applyPatch(obj, [patchToApply]); // .concat(resolvedValueOverrides && add(patch.path, resolvedValueOverrides) || []));
+    if (Object.keys(resolvedValueOverrides || {}).length) {
+      const newValue = getInByJsonPath(obj, patch.path);
+      if (typeof newValue === 'object') {
+        // Object.assign(newValue, resolvedValueOverrides);
+        if (resolvedValueOverrides.description) { newValue.description = resolvedValueOverrides.description; }
+      }
+      jsonPatch.applyPatch(obj, [replace(patch.path, newValue)]);
+    }
 
     // Attach metadata to the resulting value.
     if (
@@ -86,8 +112,36 @@ function applyPatch(obj, patch, opts) {
       const newValue = { ...currentValue, ...patch.meta };
       jsonPatch.applyPatch(obj, [replace(patch.path, newValue)]);
     }
+    return obj;
   }
 
+  if (patch.op === 'replace' && patch.path === '') {
+    let { value } = patch;
+
+    if (
+      opts.allowMetaPatches &&
+      patch.meta &&
+      isAdditiveMutation(patch) &&
+      (Array.isArray(patch.value) || isObject(patch.value))
+    ) {
+      value = { ...value, ...patch.meta };
+    }
+    return value;
+  }
+
+  jsonPatch.applyPatch(obj, [patch]);
+
+  // Attach metadata to the resulting value.
+  if (
+    opts.allowMetaPatches &&
+    patch.meta &&
+    isAdditiveMutation(patch) &&
+    (Array.isArray(patch.value) || isObject(patch.value))
+  ) {
+    const currentValue = getInByJsonPath(obj, patch.path);
+    const newValue = { ...currentValue, ...patch.meta };
+    jsonPatch.applyPatch(obj, [replace(patch.path, newValue)]);
+  }
   return obj;
 }
 
@@ -124,6 +178,15 @@ function add(path, value) {
 function replace(path, value, meta) {
   return {
     op: 'replace',
+    path,
+    value,
+    meta,
+  };
+}
+
+function mergeReplace(path, value, meta) {
+  return {
+    op: 'mergeReplace',
     path,
     value,
     meta,
@@ -299,7 +362,7 @@ function isError(patch) {
 function isJsonPatch(patch) {
   if (isPatch(patch)) {
     const { op } = patch;
-    return op === 'add' || op === 'remove' || op === 'replace';
+    return op === 'add' || op === 'remove' || op === 'replace' || op === 'mergeReplace';
   }
   return false;
 }
@@ -317,6 +380,7 @@ function isAdditiveMutation(patch) {
     isMutation(patch) &&
     (patch.op === 'add' ||
       patch.op === 'replace' ||
+      patch.op === 'mergeReplace' ||
       patch.op === 'merge' ||
       patch.op === 'mergeDeep')
   );

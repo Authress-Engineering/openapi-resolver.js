@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -32,9 +32,6 @@ jobs:
     - name: Install dependencies
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: yarn --frozen-lockfile
-    - name: Lint commit message
-      if: github.ref != 'refs/heads/main' && github.actor != 'dependabot[bot]'
-      run: git log -1 --pretty=format:"%s" | npx commitlint
     - name: Lint code
       run: npm run lint
     - name: Run all tests
@@ -57,10 +54,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 12.4.x
+
+    - name: Use Node.js lowest enabled version
       uses: actions/setup-node@v2
       with:
-        node-version: 12.4.x
+        node-version: 14.x
+
     - name: Cache Node Modules
       id: cache-node-modules
       uses: actions/cache@v2
@@ -76,7 +75,7 @@ jobs:
       with:
         name: commonjs
 
-    - name: Run commonjs build artifacts on Node.js 12.4.x
+    - name: Run commonjs build artifacts
       run: node -p "require('./commonjs')"
 
     - name: Use Node 14.x
