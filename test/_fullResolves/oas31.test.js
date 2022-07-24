@@ -13,7 +13,7 @@ test.only('should resolve description overrides correctly', async () => {
   const schema = await $RefParser.dereference(testDoc);
 
   expect(schema).toEqual({
-    openapi: '3.2.0',
+    openapi: '3.1.0',
     info: {
       version: '1.0.0',
       title: 'Example.com',

@@ -10,9 +10,7 @@ const module = {
   rules: [
     {
       test: /\.js$/,
-      // `cross-fetch` requires a number of polyfills (like Promise), so we
-      // let `@babel/plugin-transform-runtime` inject them.
-      exclude: /node_modules\/(?!cross-fetch\/)/,
+      exclude: /node_modules\//,
       use: {
         loader: 'babel-loader',
       },
@@ -93,7 +91,9 @@ const browserMin = {
     extensions: ['.js', '.json'],
     fallback: {
       http: require.resolve('stream-http'),
+      https: require.resolve('stream-http'),
       buffer: require.resolve('buffer'),
+      util: require.resolve('util'),
     },
   },
   module,
