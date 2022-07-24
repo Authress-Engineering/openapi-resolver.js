@@ -13,7 +13,7 @@ about: Suggest an new feature or enhancement for this project
 
  OpenAPI Resolver usage:
  ```js
- OpenApiResolver({
+ openApiResolver({
    // your config options here
  })
  ```

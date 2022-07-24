@@ -14,7 +14,8 @@ Compatibility between OpenAPI Resolver and the OpenAPI Specification is as follo
 
 OpenAPI Resolver Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.10.x | 2020-01-17 | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 |
+3.10.x | 2020-01-17 | 2.0, 3.0.0 |
+4.x    | 2022-07-24 | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 |
 
 ## Installation
 
@@ -30,23 +31,21 @@ After installed successfully:
 
 [ES6 imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
 ```js
-import OpenApiResolver from 'openapi-resolver';
+import openApiResolver from 'openapi-resolver';
 ```
 
 [CommonJS imports](https://en.wikipedia.org/wiki/CommonJS)
 ```js
-const OpenApiResolver = require('openapi-resolver');
+const openApiResolver = require('openapi-resolver');
 ```
 
 
 ## Usage
 
 ```js
-import OpenApiResolver from 'openapi-resolver';
+import openApiResolver from 'openapi-resolver';
 
-new OpenApiResolver('http://petstore.swagger.io/v2/swagger.json');
-OpenApiResolver('http://petstore.swagger.io/v2/swagger.json');
-// these two lines are equivalent
+const spec = await openApiResolver('http://petstore.swagger.io/v2/swagger.json');
 ```
 
 

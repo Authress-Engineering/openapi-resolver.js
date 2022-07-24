@@ -28,7 +28,7 @@ OpenAPI definition:
 
 OpenAPI Resolver usage:
 ```js
-OpenApiResolver({
+openApiResolver({
   // your config options here
 })
 ```
