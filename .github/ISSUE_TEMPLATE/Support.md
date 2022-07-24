@@ -5,9 +5,9 @@ about: Ask a question or request help with your implementation.
 ---
 
 <!--
-  We can only offer support for Swagger-Client itself.
+  We can only offer support for OpenAPI Resolver itself.
 
-  If you're having a problem with a library that uses Swagger-Client,
+  If you're having a problem with a library that uses the OpenAPI Resolver,
   please open an issue in that project's repository instead.
  -->
 
@@ -16,12 +16,12 @@ about: Ask a question or request help with your implementation.
  - Environment: [e.g. Chrome 59, Node.js v10.0.0]
  - Method of installation: [e.g. npm, unpkg]
  - OpenApi Resolver version: [e.g. 3.8.0]
- - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0]
+ - OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0]
 
 ### Content & configuration
 <!-- Provide us with a way to see what you're seeing, so that we can help. -->
 
-Swagger/OpenAPI definition:
+OpenAPI definition:
 ```yaml
 # your YAML here
 ```

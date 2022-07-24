@@ -6,7 +6,7 @@ about: Suggest an new feature or enhancement for this project
 
  ### Content & configuration
 
- Swagger/OpenAPI definition:
+ OpenAPI definition:
  ```yaml
  # your YAML here
  ```

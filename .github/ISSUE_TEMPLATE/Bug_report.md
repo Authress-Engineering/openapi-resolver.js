@@ -17,7 +17,7 @@ about: Report an issue you're experiencing
   Issues on GitHub are only related to problems of OpenAPI Resolver itself. We'll
   try to offer support here for your use case, but we can't offer help with projects that use OpenAPI Resolver indirectly.
 
-  Likewise, we can't accept bugs in the Swagger/OpenAPI specifications themselves, or anything that violates the specifications.
+  Likewise, we can't accept bugs in the OpenAPI specifications themselves, or anything that violates the specifications.
 -->
 
 ### Q&A (please complete the following information)
@@ -25,7 +25,7 @@ about: Report an issue you're experiencing
  - Environment: [e.g. Chrome 59, Node.js v10.0.0]
  - Method of installation: [e.g. npm, unpkg]
  - OpenAPI Resolver version: [e.g. 3.8.0]
- - Swagger/OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0, OpenAPI 3.1]
+ - OpenAPI version: [e.g. Swagger 2.0, OpenAPI 3.0, OpenAPI 3.1]
 
 ### Content & configuration
 <!--
@@ -33,7 +33,7 @@ about: Report an issue you're experiencing
   so that we can fix your issue.
 -->
 
-Swagger/OpenAPI definition:
+OpenAPI definition:
 ```yaml
 # your YAML here
 ```
