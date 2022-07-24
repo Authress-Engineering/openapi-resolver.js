@@ -3,14 +3,13 @@ import webpack from 'webpack';
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
 import { DuplicatesPlugin } from 'inspectpack/plugin';
 import { WebpackBundleSizeAnalyzerPlugin } from 'webpack-bundle-size-analyzer';
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 
 const module = {
   rules: [
     {
       test: /\.js$/,
-      exclude: /node_modules\//,
+      // exclude: /node_modules\//,
       use: {
         loader: 'babel-loader',
       },
@@ -48,7 +47,6 @@ const browser = {
   },
   module,
   plugins: [
-    new LodashModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
     }),
@@ -104,7 +102,6 @@ const browserMin = {
   },
   module,
   plugins: [
-    new LodashModuleReplacementPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
     }),
