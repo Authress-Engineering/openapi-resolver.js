@@ -3,12 +3,8 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import jsYaml from 'js-yaml';
 
-// import Swagger from '../../src/index.js';
-
 test.only('should resolve description overrides correctly', async () => {
-  // const testDoc = jsYaml.load(await fs.readFile(path.join(__dirname, 'oas31.yaml'), 'utf8'));
   const testDoc = jsYaml.load(await fs.readFile(path.join(__dirname, 'oas31.yaml'), 'utf8'));
-  // const res = await Swagger.resolve({ spec: testDoc, allowMetaPatches: false });
 
   const schema = await $RefParser.dereference(testDoc);
 

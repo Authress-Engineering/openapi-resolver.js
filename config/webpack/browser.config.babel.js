@@ -39,6 +39,12 @@ const browser = {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.json'],
+    fallback: {
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      buffer: require.resolve('buffer'),
+      util: require.resolve('util'),
+    },
   },
   module,
   plugins: [
@@ -91,7 +97,7 @@ const browserMin = {
     extensions: ['.js', '.json'],
     fallback: {
       http: require.resolve('stream-http'),
-      https: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
       buffer: require.resolve('buffer'),
       util: require.resolve('util'),
     },
