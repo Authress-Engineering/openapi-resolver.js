@@ -958,7 +958,7 @@
     pirates "^4.0.5"
     source-map-support "^0.5.16"
 
-"@babel/runtime-corejs3@7.18.9":
+"@babel/runtime-corejs3@^7.18.9":
   version "7.18.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.18.9.tgz#7bacecd1cb2dd694eacd32a91fcf7021c20770ae"
   integrity sha512-qZEWeccZCrHA2Au4/X05QW5CMdm4VjUDCrGq5gf1ZDcM4hRqreKrtwAn7yci9zfgAS9apvnsFXiGBHBAxZdK9A==
@@ -2219,6 +2219,11 @@ core-js-pure@^3.20.2:
   version "3.23.5"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.23.5.tgz#23daaa9af9230e50f10b0fa4b8e6b87402be4c33"
   integrity sha512-8t78LdpKSuCq4pJYCYk8hl7XEkAX+BP16yRIwL3AanTksxuEf7CM83vRyctmiEL8NDZ3jpUcv56fk9/zG3aIuw==
+
+core-js@^3.23.5:
+  version "3.23.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.23.5.tgz#1f82b0de5eece800827a2f59d597509c67650475"
+  integrity sha512-7Vh11tujtAZy82da4duVreQysIoO2EvVrur7y6IzZkH1IHPSekuDi8Vuw1+YKjkbfWLRD7Nc9ICQ/sIUDutcyg==
 
 cross-env@=7.0.3:
   version "7.0.3"
@@ -4037,7 +4042,7 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.17.20:
+lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -4542,6 +4547,11 @@ pretty-format@^28.1.3:
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
+
+process@^0.11.10:
+  version "0.11.10"
+  resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
 prompts@^2.0.1:
   version "2.4.2"

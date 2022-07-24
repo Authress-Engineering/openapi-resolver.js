@@ -43,6 +43,7 @@ module.exports = {
           {
             absoluteRuntime: false,
             corejs: 3,
+            version: '7.18.6'
           },
         ],
         '@babel/proposal-class-properties',
@@ -57,16 +58,19 @@ module.exports = {
           {
             debug: false,
             corejs: { version: 3 },
+            useBuiltIns: 'usage'
           },
         ],
       ],
       plugins: [
-        [
-          '@babel/plugin-transform-runtime',
-          {
-            corejs: 3,
-          },
-        ],
+        // throws _includesInstanceProperty is not a function
+        // [
+        //   '@babel/plugin-transform-runtime',
+        //   {
+        //     corejs: 3,
+        //     version: '7.18.6'
+        //   },
+        // ],
         '@babel/proposal-class-properties',
         '@babel/proposal-object-rest-spread',
       ],

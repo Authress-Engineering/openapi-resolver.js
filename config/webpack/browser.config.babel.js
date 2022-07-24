@@ -4,6 +4,7 @@ import { StatsWriterPlugin } from 'webpack-stats-plugin';
 import { DuplicatesPlugin } from 'inspectpack/plugin';
 import { WebpackBundleSizeAnalyzerPlugin } from 'webpack-bundle-size-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
+import { cloneDeep } from 'lodash';
 
 const module = {
   rules: [
@@ -19,7 +20,9 @@ const module = {
 
 const browser = {
   mode: 'production',
-  entry: ['./src/index.js'],
+  entry: {
+    main: './src/index.js',
+  },
   target: 'web',
   performance: {
     hints: false,
@@ -27,13 +30,12 @@ const browser = {
   output: {
     path: path.resolve('./dist'),
     filename: 'openapi-resolver.browser.js',
-    libraryTarget: 'umd',
-    library: 'OpenApiResolver',
-    libraryExport: 'default',
-    globalObject: 'window',
-  },
-  externals: {
-    esprima: true,
+    library: {
+      name: 'OpenApiResolver',
+      type: 'umd',
+      export: 'default',
+    },
+    globalObject: 'this',
   },
   resolve: {
     modules: ['node_modules'],
@@ -41,12 +43,11 @@ const browser = {
     fallback: {
       http: require.resolve('stream-http'),
       https: require.resolve('https-browserify'),
-      buffer: require.resolve('buffer'),
-      util: require.resolve('util'),
     },
   },
   module,
   plugins: [
+    new webpack.ProvidePlugin({ process: 'process/browser' }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
     }),
@@ -69,57 +70,34 @@ const browser = {
   },
 };
 
-const browserMin = {
-  mode: 'production',
-  entry: ['./src/index.js'],
-  target: 'web',
-  devtool: 'source-map',
-  performance: {
-    hints: 'error',
-    maxEntrypointSize: 270000,
-    maxAssetSize: 1300000,
-  },
-  output: {
-    path: path.resolve('./dist'),
-    filename: 'openapi-resolver.browser.min.js',
-    libraryTarget: 'umd',
-    library: 'OpenApiResolver',
-    libraryExport: 'default',
-    globalObject: 'window',
-  },
-  externals: {
-    esprima: true,
-  },
-  resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js', '.json'],
-    fallback: {
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
-      buffer: require.resolve('buffer'),
-      util: require.resolve('util'),
-    },
-  },
-  module,
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
+const browserMin = cloneDeep(browser);
+browserMin.devtool = 'source-map';
+browserMin.performance = {
+  hints: 'error',
+  maxEntrypointSize: 270000,
+  maxAssetSize: 1300000,
+};
+browserMin.output.filename = 'openapi-resolver.browser.min.js';
+browserMin.plugins = [
+  new webpack.ProvidePlugin({ process: 'process/browser' }),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+  }),
+];
+
+browserMin.optimization = {
+  minimizer: [
+    new TerserPlugin({
+      terserOptions: {
+        compress: {
+          warnings: false,
+        },
+        output: {
+          comments: false,
+        },
+      },
     }),
   ],
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            warnings: false,
-          },
-          output: {
-            comments: false,
-          },
-        },
-      }),
-    ],
-  },
 };
 
 export default [browser, browserMin];

@@ -2,14 +2,6 @@
   "name": "openapi-resolver",
   "version": "0.0.0",
   "description": "Open API Resolver - Javascript library to connect to parse and resolve openapi-enabled APIs via browser or nodejs",
-  "browser": {
-    "./src/http/fold-formdata-to-request.node.js": "./src/http/fold-formdata-to-request.browser.js",
-    "./lib/http/fold-formdata-to-request.node.js": "./lib/http/fold-formdata-to-request.browser.js",
-    "./es/http/fold-formdata-to-request.node.js": "./es/http/fold-formdata-to-request.browser.js",
-    "./src/helpers/btoa.node.js": "./src/helpers/btoa.browser.js",
-    "./lib/helpers/btoa.node.js": "./lib/helpers/btoa.browser.js",
-    "./es/helpers/btoa.node.js": "./es/helpers/btoa.browser.js"
-  },
   "main": "lib/commonjs.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
@@ -66,6 +58,7 @@
     "babel-loader": "=8.2.5",
     "buffer": "^6.0.3",
     "commander": "^9.4.0",
+    "core-js": "^3.23.5",
     "cross-env": "=7.0.3",
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -83,9 +76,11 @@
     "json-loader": "=0.5.7",
     "license-checker": "=25.0.1",
     "lint-staged": "=12.5.0",
+    "lodash": "^4.17.21",
     "lodash-webpack-plugin": "=0.11.6",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.0",
+    "process": "^0.11.10",
     "rimraf": "=3.0.2",
     "stream-http": "^3.2.0",
     "terser-webpack-plugin": "^5.0.3",
@@ -98,7 +93,7 @@
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.9",
-    "@babel/runtime-corejs3": "7.18.9",
+    "@babel/runtime-corejs3": "^7.18.9",
     "js-yaml": "^4.1.0"
   }
 }
