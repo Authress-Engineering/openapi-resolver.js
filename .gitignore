@@ -24,6 +24,7 @@ test/specmap/data/private
 test/webpack-bundle/.tmp
 /openapi-resolver-*.*.*.tgz
 jest-stare
+yarn-error.log
 
 # Automated releases
 release/.version

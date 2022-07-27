@@ -1,12 +1,13 @@
-import $RefParser from '@apidevtools/json-schema-ref-parser';
 import path from 'path';
 import { promises as fs } from 'fs';
 import jsYaml from 'js-yaml';
 
+import OpenApiResolver from '../../src/index.js';
+
 test.only('should resolve description overrides correctly', async () => {
   const testDoc = jsYaml.load(await fs.readFile(path.join(__dirname, 'oas31.yaml'), 'utf8'));
 
-  const schema = await $RefParser.dereference(testDoc);
+  const schema = await OpenApiResolver.resolve(testDoc);
 
   expect(schema).toEqual({
     openapi: '3.1.0',
@@ -22,8 +23,7 @@ test.only('should resolve description overrides correctly', async () => {
         name: 'Apache 2.0',
         url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
       },
-      description:
-        'This is an **example** API to demonstrate features of the OpenAPI\nspecification.\n',
+      description: 'This is an **example** API to demonstrate features of the OpenAPI\nspecification.\n',
     },
     servers: [
       {
