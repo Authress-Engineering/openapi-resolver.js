@@ -12,6 +12,9 @@ async function resolver(specUrlOrObject) {
     if (typeof objectWithRef !== 'object') {
       return undefined;
     }
+    if (objectWithRef === null) {
+      return null;
+    }
     if (!Object.hasOwnProperty.call(objectWithRef, '$ref')) {
       if (Array.isArray(objectWithRef)) {
         return undefined;
