@@ -1,0 +1,67 @@
+openapi: 3.1.0
+info:
+  title: Tests of combining references with descriptions
+paths:
+  '/example/':
+    get:
+      operationId: Example
+      responses:
+        '200':
+          description: OK
+          content:
+            "application/json":
+              schema:
+                properties:
+                  one-custom:
+                    $ref: '#/components/schemas/pattern-one'
+                    description: Top-level custom description using pattern one
+                  two-default:
+                    $ref: '#/components/schemas/pattern-two'
+                  three-custom:
+                    $ref: '#/components/schemas/pattern-three'
+                    description: Top-level custom description using pattern three
+                  nested:
+                    type: object
+                    properties:
+                      nested-one-custom:
+                        $ref: '#/components/schemas/pattern-one'
+                        description: Nested custom description using pattern one
+                      nested-two-custom:
+                        $ref: '#/components/schemas/pattern-two'
+                        description: Nested custom description using pattern two
+                      nested-three-default:
+                        $ref: '#/components/schemas/pattern-three'
+                      nested-four-default:
+                        $ref: '#/components/schemas/pattern-four'
+                      deeper:
+                        type: object
+                        properties:
+                          double-nested-one-default:
+                            $ref: '#/components/schemas/pattern-one'
+                          double-nested-two-custom:
+                            $ref: '#/components/schemas/pattern-two'
+                            description: Double nested custom description using pattern two
+                          double-nested-three-custom:
+                            $ref: '#/components/schemas/pattern-three'
+                            description: Double nested custom description using pattern three
+                          double-nested-four-custom:
+                            $ref: '#/components/schemas/pattern-four'
+                            description: Double nested custom description using pattern four
+components:
+  schemas:
+    pattern-one:
+      type: string
+      pattern: 'one'
+      description: This is pattern one
+    pattern-two:
+      type: string
+      pattern: 'two'
+      description: This is pattern two
+    pattern-three:
+      type: string
+      pattern: 'three'
+      description: This is pattern three
+    pattern-four:
+      type: string
+      pattern: 'four'
+      description: This is pattern four

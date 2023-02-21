@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: Title
+  version: Version
+paths:
+  /api/{ver}/login:
+    post:
+      tags:
+        - User
+      summary: Login with secret
+      description: Allow a user to login with a valid id and secret.
+      operationId: login_1
+      parameters:
+        - name: ver
+          in: path
+          description: The version of the endpoint
+          required: true
+          schema:
+            type: string
+          example: v2
+        - name: Realm
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: x-api-key
+          in: header
+          schema:
+            $ref: '#/components/schemas/ApiKey'
+          explode: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '201':
+          description: A user was successfully authenticated.
+        '404':
+          description: A user failed to login.
+components:
+  schemas:
+    ApiKey:
+      type: object
+      properties:
+        key:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        idPresent:
+          type: boolean
+        passwordPresent:
+          type: boolean
+        secret:
+          type: string

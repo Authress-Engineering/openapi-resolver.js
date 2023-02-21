@@ -46,8 +46,7 @@ const mergeRefObject = (refObject, newObject) => {
  */
 function crawl(obj, path, pathFromRoot, parents, pathList, $refs, options) {
   // function crawl(obj: any, path: string, pathFromRoot: string, parents: Set<any>, pathList: Array<string>, $refs: $Refs, options: $RefParserOptions, ) : any {
-  // @ts-ignore TS2722
-  if (!obj || Array.isArray(obj) || typeof obj !== 'object' || ArrayBuffer.isView(obj) || (options && options.dereference && options.dereference.excludedPathMatcher(pathFromRoot))) {
+  if (!obj || typeof obj !== 'object' || ArrayBuffer.isView(obj) || (options && options.dereference && options.dereference.excludedPathMatcher(pathFromRoot))) {
     return { value: obj, circular: false };
   }
 
@@ -56,6 +55,7 @@ function crawl(obj, path, pathFromRoot, parents, pathList, $refs, options) {
     return { value: obj, circular: true };
   }
 
+  // If it is a $ref
   if ($Ref.isAllowed$Ref(obj, options)) {
     const $refObject = obj;
     const $refPath = resolve(path, $refObject.$ref);
@@ -95,10 +95,26 @@ function crawl(obj, path, pathFromRoot, parents, pathList, $refs, options) {
     return result;
   }
 
+  // If it is an Array
+  if (Array.isArray(obj)) {
+    let circular;
+    const arrayResult = [];
+    // eslint-disable-next-line no-restricted-syntax, guard-for-in
+    for (const arrayIndex in obj) {
+      const keyPath = Pointer.join(path, arrayIndex);
+      const keyPathFromRoot = Pointer.join(pathFromRoot, arrayIndex);
+
+      const result = crawl(obj[arrayIndex], keyPath, keyPathFromRoot, new Set(parents).add(obj), pathList.concat(path), $refs, options);
+      circular = circular || result.circular;
+      arrayResult.push(result.value);
+    }
+    return { value: arrayResult, circular };
+  }
+
+  // Otherwise it is an object
   let circular;
-  const keys = Object.keys(obj);
   // eslint-disable-next-line no-restricted-syntax
-  for (const key of keys) {
+  for (const key of Object.keys(obj)) {
     const keyPath = Pointer.join(path, key);
     const keyPathFromRoot = Pointer.join(pathFromRoot, key);
 
