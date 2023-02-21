@@ -1,3 +1,5 @@
+/* eslint-disable prefer-rest-params */
+/* eslint-disable no-underscore-dangle */
 import $Refs from '@apidevtools/json-schema-ref-parser/lib/refs.js';
 import _parse from '@apidevtools/json-schema-ref-parser/lib/parse.js';
 import normalizeArgs from '@apidevtools/json-schema-ref-parser/lib/normalize-args.js';
@@ -76,8 +78,7 @@ export class $RefParser {
     let promise;
 
     if (!args.path && !args.schema) {
-      const err = ono(`Expected a file path, URL, or object. Got ${args.path || args.schema}`);
-      return maybe(args.callback, Promise.reject(err));
+      throw Error(`Expected a file path, URL, or object. Got ${args.path || args.schema}`);
     }
 
     // Reset everything
@@ -116,23 +117,23 @@ export class $RefParser {
 
       if (result !== null && typeof result === 'object' && !Buffer.isBuffer(result)) {
         this.schema = result;
-        return maybe(args.callback, Promise.resolve(this.schema));
+        return this.schema;
       }
       if (args.options.continueOnError) {
         this.schema = null; // it's already set to null at line 79, but let's set it again for the sake of readability
-        return maybe(args.callback, Promise.resolve(this.schema));
+        return this.schema;
       }
-      throw ono.syntax(`"${this.$refs._root$Ref.path || result}" is not a valid JSON Schema`);
+      throw Error(`"${this.$refs._root$Ref.path || result}" is not a valid JSON Schema`);
     } catch (err) {
       if (!args.options.continueOnError || !isHandledError(err)) {
-        return maybe(args.callback, Promise.reject(err));
+        throw err;
       }
 
       if (this.$refs._$refs[url.stripHash(args.path)]) {
         this.$refs._$refs[url.stripHash(args.path)].addError(err);
       }
 
-      return maybe(args.callback, Promise.resolve(null));
+      return null;
     }
   }
 
@@ -162,15 +163,10 @@ export class $RefParser {
    */
   async resolve() {
     const args = normalizeArgs(arguments);
-
-    try {
-      await this.parse(args.path, args.schema, args.options);
-      await resolveExternal(this, args.options);
-      finalize(this);
-      return maybe(args.callback, Promise.resolve(this.$refs));
-    } catch (err) {
-      return maybe(args.callback, Promise.reject(err));
-    }
+    await this.parse(args.path, args.schema, args.options);
+    await resolveExternal(this, args.options);
+    finalize(this);
+    return this.$refs;
   }
 
   /**
@@ -196,17 +192,11 @@ export class $RefParser {
   // public dereference(baseUrl: string, schema: RefParserSchema): Promise<JSONSchema>;
   // public dereference(schema: RefParserSchema, options: ParserOptions): Promise<JSONSchema>;
   async dereference() {
-    // eslint-disable-next-line prefer-rest-params
     const args = normalizeArgs(arguments);
-
-    try {
-      await this.resolve(args.path, args.schema, args.options);
-      _dereference(this, args.options);
-      finalize(this);
-      return maybe(args.callback, Promise.resolve(this.schema));
-    } catch (err) {
-      return maybe(args.callback, Promise.reject(err));
-    }
+    await this.resolve(args.path, args.schema, args.options);
+    _dereference(this, args.options);
+    finalize(this);
+    return this.schema;
   }
 }
 export default $RefParser;
@@ -216,8 +206,4 @@ function finalize(parser) {
   if (errors.length > 0) {
     throw new JSONParserErrorGroup(parser);
   }
-}
-
-function maybe(result) {
-  return result;
 }
