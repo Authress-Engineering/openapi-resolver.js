@@ -2,7 +2,7 @@ import jsYaml from 'js-yaml';
 
 import OpenApiResolver from '../../src/index.js';
 
-test.only('should resolve circular references correctly', async () => {
+test('should resolve circular references correctly', async () => {
   const testDoc = jsYaml.load(`openapi: 3.0.1
 info:
   title: Test API
@@ -57,6 +57,7 @@ components:
             message: {
               properties: {
                 linkedMessage: {
+                  $ref: '#/components/schemas/Message',
                   circularReference: { $ref: '#/components/schemas/Message', name: 'Message' },
                 },
                 text: {
@@ -67,6 +68,7 @@ components:
             },
             replies: {
               items: {
+                $ref: '#/components/schemas/Comment',
                 circularReference: {
                   $ref: '#/components/schemas/Comment',
                   name: 'Comment',
@@ -84,6 +86,7 @@ components:
               message: {
                 properties: {
                   linkedMessage: {
+                    $ref: '#/components/schemas/Message',
                     circularReference: {
                       $ref: '#/components/schemas/Message',
                       name: 'Message',
@@ -97,6 +100,7 @@ components:
               },
               replies: {
                 items: {
+                  $ref: '#/components/schemas/Comment',
                   circularReference: {
                     $ref: '#/components/schemas/Comment',
                     name: 'Comment',
@@ -112,6 +116,7 @@ components:
         Message: {
           properties: {
             linkedMessage: {
+              $ref: '#/components/schemas/Message',
               circularReference: {
                 $ref: '#/components/schemas/Message',
                 name: 'Message',
@@ -152,6 +157,7 @@ components:
                         message: {
                           properties: {
                             linkedMessage: {
+                              $ref: '#/components/schemas/Message',
                               circularReference: {
                                 $ref: '#/components/schemas/Message',
                                 name: 'Message',
@@ -165,6 +171,7 @@ components:
                         },
                         replies: {
                           items: {
+                            $ref: '#/components/schemas/Comment',
                             circularReference: {
                               $ref: '#/components/schemas/Comment',
                               name: 'Comment',

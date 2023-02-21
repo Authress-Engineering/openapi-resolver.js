@@ -1,13 +1,16 @@
 /* eslint-disable no-bitwise */
-import $RefParser from '@apidevtools/json-schema-ref-parser';
 import jsYaml from 'js-yaml';
 import cloneDeepWith from 'lodash.clonedeepwith';
+
+// eslint-disable-next-line import/no-named-as-default
+import $RefParser from './refParser.js';
 
 async function resolver(specUrlOrObject) {
   const result = await dereference(specUrlOrObject);
 
   const refStack = [];
   const keyPath = [];
+  // eslint-disable-next-line no-unused-vars
   function handleCircularReferences(objectWithRef, key) {
     if (typeof objectWithRef !== 'object') {
       return undefined;
@@ -52,8 +55,9 @@ async function resolver(specUrlOrObject) {
     return finalResult;
   }
 
-  const specWithReferences = cloneDeepWith(result.schema, handleCircularReferences);
-  return specWithReferences;
+  // const specWithReferences = cloneDeepWith(result.schema, handleCircularReferences);
+  return result.schema;
+  // return specWithReferences;
 }
 
 async function dereference(specUrlOrObject) {

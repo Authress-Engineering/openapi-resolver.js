@@ -9,7 +9,7 @@ module.exports = {
             modules: 'commonjs',
             corejs: { version: 3 },
             targets: {
-              node: '14',
+              node: '16',
             },
             forceAllTransforms: false,
           },
@@ -43,7 +43,7 @@ module.exports = {
           {
             absoluteRuntime: false,
             corejs: 3,
-            version: '7.18.6'
+            version: '7.18.6',
           },
         ],
         '@babel/proposal-class-properties',
@@ -58,7 +58,7 @@ module.exports = {
           {
             debug: false,
             corejs: { version: 3 },
-            useBuiltIns: 'usage'
+            useBuiltIns: 'usage',
           },
         ],
       ],

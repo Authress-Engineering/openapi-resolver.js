@@ -51,7 +51,7 @@ const spec = await openApiResolver('http://petstore.swagger.io/v2/swagger.json')
 
 ### Runtime 
 
-- Node.js `>=` 14.x
+- Node.js: lts
 - `openapi-resolver` works in the latest versions of Chrome, Safari, Firefox, and Edge.
 
 ## Security contact
