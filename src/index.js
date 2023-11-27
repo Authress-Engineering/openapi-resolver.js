@@ -66,7 +66,7 @@ async function dereference(specUrlOrObject) {
   const options = { dereference: { circular: 'ignore' } };
   if (typeof specUrlOrObject === 'object') {
     if (typeof specUrlOrObject.href === 'string') {
-      await dereference(specUrlOrObject.toString(), options);
+      await parser.dereference(specUrlOrObject.toString(), options);
       return parser;
     }
 
