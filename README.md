@@ -1,6 +1,19 @@
+<p align="center">
+  <img height="300px" src="https://authress.io/static/images/media-banner.png" alt="Authress media banner">
+</p>
+
 # OpenAPI Resolver
 
-[![Build Status](https://github.com/rhosys/openapi-resolver.js/actions/workflows/nodejs.yml/badge.svg)](https://github.com/rhosys/openapi-resolver.js/actions)
+<p align="center">
+    <a href="https://authress.io" alt="Authress Engineering">
+      <img src="https://img.shields.io/static/v1?label=Authress+Engineering&message=OpenAPI%20Explorer&color=%23FBAF0B&logo=androidauto&logoColor=%23FBAF0B"></a>
+    <a href="./LICENSE" alt="apache 2.0 license">
+      <img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg"></a>
+    <a href="https://badge.fury.io/js/openapi-resolver" alt="npm version">
+        <img src="https://badge.fury.io/js/openapi-resolver.svg"></a>
+    <a href="https://authress.io/community" alt="npm version">
+      <img src="https://img.shields.io/badge/community-Discord-purple.svg"></a>
+</p>
 
 **OpenAPI Resolver** is a JavaScript module that allows you to fetch, resolve, and interact with Swagger/OpenAPI documents.
 
