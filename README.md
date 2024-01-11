@@ -69,4 +69,4 @@ const spec = await openApiResolver('http://petstore.swagger.io/v2/swagger.json')
 
 ## Security contact
 
-Please disclose any security-related issues or vulnerabilities by emailing [security@rhosys.ch](mailto:security@rhosys.ch), instead of using the public issue tracker.
+Please disclose any security-related issues or vulnerabilities by emailing [security@authress.io](mailto:security@authress.io), instead of using the public issue tracker.

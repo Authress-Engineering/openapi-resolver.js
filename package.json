@@ -6,9 +6,9 @@
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "unpkg": "dist/openapi-resolver.browser.min.js",
-  "repository": "git@github.com:rhosys/openapi-resolver.js.git",
+  "repository": "git@github.com:Authress-Engineering/openapi-resolver.js.git",
   "contributors": [
-    "Rhosys Developers <developers@rhosys.ch>"
+    "Authress Developers <developers@authress.io>"
   ],
   "files": [
     "LICENSE",

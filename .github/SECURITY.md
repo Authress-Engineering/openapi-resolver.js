@@ -16,6 +16,6 @@ currently being supported with security updates.
 
 ## Reporting a vulnerability
 
-To report a vulnerability please send an email with the details to [security@rhosys.ch](mailto:security@rhosys.ch).
+To report a vulnerability please send an email with the details to [security@authress.io](mailto:security@authress.io).
 
 We'll acknowledge receipt of your report ASAP, and set expectations on how we plan to handle it.
