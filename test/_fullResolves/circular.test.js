@@ -55,8 +55,10 @@ components:
           properties: {
             author: { example: 'exampleAuthor', type: 'string' },
             message: {
+              title: 'Message',
               properties: {
                 linkedMessage: {
+                  title: 'Message',
                   $ref: '#/components/schemas/Message',
                   circularReference: { $ref: '#/components/schemas/Message', name: 'Message' },
                 },
@@ -68,6 +70,7 @@ components:
             },
             replies: {
               items: {
+                title: 'Comment',
                 $ref: '#/components/schemas/Comment',
                 circularReference: {
                   $ref: '#/components/schemas/Comment',
@@ -81,11 +84,14 @@ components:
         },
         CommentList: {
           items: {
+            title: 'Comment',
             properties: {
               author: { example: 'exampleAuthor', type: 'string' },
               message: {
+                title: 'Message',
                 properties: {
                   linkedMessage: {
+                    title: 'Message',
                     $ref: '#/components/schemas/Message',
                     circularReference: {
                       $ref: '#/components/schemas/Message',
@@ -100,6 +106,7 @@ components:
               },
               replies: {
                 items: {
+                  title: 'Comment',
                   $ref: '#/components/schemas/Comment',
                   circularReference: {
                     $ref: '#/components/schemas/Comment',
@@ -116,6 +123,7 @@ components:
         Message: {
           properties: {
             linkedMessage: {
+              title: 'Message',
               $ref: '#/components/schemas/Message',
               circularReference: {
                 $ref: '#/components/schemas/Message',
@@ -148,15 +156,19 @@ components:
               content: {
                 'application/json': {
                   schema: {
+                    title: 'CommentList',
                     items: {
+                      title: 'Comment',
                       properties: {
                         author: {
                           example: 'exampleAuthor',
                           type: 'string',
                         },
                         message: {
+                          title: 'Message',
                           properties: {
                             linkedMessage: {
+                              title: 'Message',
                               $ref: '#/components/schemas/Message',
                               circularReference: {
                                 $ref: '#/components/schemas/Message',
@@ -171,6 +183,7 @@ components:
                         },
                         replies: {
                           items: {
+                            title: 'Comment',
                             $ref: '#/components/schemas/Comment',
                             circularReference: {
                               $ref: '#/components/schemas/Comment',

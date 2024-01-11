@@ -58,32 +58,39 @@ test.only('should resolve description overrides correctly', async () => {
             content: {
               'application/json': {
                 schema: {
+                  title: 'NamesAndNumbers',
                   type: 'object',
                   description: 'Names and Numbers (specific)',
                   properties: {
                     names: {
+                      title: 'Names',
                       type: 'object',
                       description: 'names description',
                       properties: {
                         oneName: {
+                          title: 'Name',
                           type: 'string',
                           description: 'One name (specific).',
                         },
                         otherName: {
+                          title: 'Name',
                           type: 'string',
                           description: 'Other name (specific).',
                         },
                       },
                     },
                     numbers: {
+                      title: 'Numbers',
                       type: 'object',
                       description: 'numbers description',
                       properties: {
                         oneNumber: {
+                          title: 'Number',
                           type: 'integer',
                           description: 'One number (specific)',
                         },
                         otherNumber: {
+                          title: 'Number',
                           type: 'integer',
                           description: 'Other number (specific)',
                         },
@@ -112,10 +119,12 @@ test.only('should resolve description overrides correctly', async () => {
           description: 'names description',
           properties: {
             oneName: {
+              title: 'Name',
               type: 'string',
               description: 'One name (specific).',
             },
             otherName: {
+              title: 'Name',
               type: 'string',
               description: 'Other name (specific).',
             },
@@ -126,10 +135,12 @@ test.only('should resolve description overrides correctly', async () => {
           description: 'numbers description',
           properties: {
             oneNumber: {
+              title: 'Number',
               type: 'integer',
               description: 'One number (specific)',
             },
             otherNumber: {
+              title: 'Number',
               type: 'integer',
               description: 'Other number (specific)',
             },
@@ -140,28 +151,34 @@ test.only('should resolve description overrides correctly', async () => {
           description: 'names and numbers description',
           properties: {
             names: {
+              title: 'Names',
               type: 'object',
               description: 'names description',
               properties: {
                 oneName: {
+                  title: 'Name',
                   type: 'string',
                   description: 'One name (specific).',
                 },
                 otherName: {
+                  title: 'Name',
                   type: 'string',
                   description: 'Other name (specific).',
                 },
               },
             },
             numbers: {
+              title: 'Numbers',
               type: 'object',
               description: 'numbers description',
               properties: {
                 oneNumber: {
+                  title: 'Number',
                   type: 'integer',
                   description: 'One number (specific)',
                 },
                 otherNumber: {
+                  title: 'Number',
                   type: 'integer',
                   description: 'Other number (specific)',
                 },

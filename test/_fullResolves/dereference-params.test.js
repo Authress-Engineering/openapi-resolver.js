@@ -51,21 +51,25 @@ test('should resolve description overrides correctly', async () => {
                           deeper: {
                             properties: {
                               'double-nested-four-custom': {
+                                title: 'pattern-four',
                                 description: 'Double nested custom description using pattern four',
                                 pattern: 'four',
                                 type: 'string',
                               },
                               'double-nested-one-default': {
+                                title: 'pattern-one',
                                 description: 'This is pattern one',
                                 pattern: 'one',
                                 type: 'string',
                               },
                               'double-nested-three-custom': {
+                                title: 'pattern-three',
                                 description: 'Double nested custom description using pattern three',
                                 pattern: 'three',
                                 type: 'string',
                               },
                               'double-nested-two-custom': {
+                                title: 'pattern-two',
                                 description: 'Double nested custom description using pattern two',
                                 pattern: 'two',
                                 type: 'string',
@@ -74,21 +78,25 @@ test('should resolve description overrides correctly', async () => {
                             type: 'object',
                           },
                           'nested-four-default': {
+                            title: 'pattern-four',
                             description: 'This is pattern four',
                             pattern: 'four',
                             type: 'string',
                           },
                           'nested-one-custom': {
+                            title: 'pattern-one',
                             description: 'Nested custom description using pattern one',
                             pattern: 'one',
                             type: 'string',
                           },
                           'nested-three-default': {
+                            title: 'pattern-three',
                             description: 'This is pattern three',
                             pattern: 'three',
                             type: 'string',
                           },
                           'nested-two-custom': {
+                            title: 'pattern-two',
                             description: 'Nested custom description using pattern two',
                             pattern: 'two',
                             type: 'string',
@@ -97,16 +105,19 @@ test('should resolve description overrides correctly', async () => {
                         type: 'object',
                       },
                       'one-custom': {
+                        title: 'pattern-one',
                         description: 'Top-level custom description using pattern one',
                         pattern: 'one',
                         type: 'string',
                       },
                       'three-custom': {
+                        title: 'pattern-three',
                         description: 'Top-level custom description using pattern three',
                         pattern: 'three',
                         type: 'string',
                       },
                       'two-default': {
+                        title: 'pattern-two',
                         description: 'This is pattern two',
                         pattern: 'two',
                         type: 'string',

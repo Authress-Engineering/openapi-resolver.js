@@ -71,6 +71,7 @@ test('should resolve description overrides correctly', async () => {
               in: 'header',
               name: 'x-api-key',
               schema: {
+                title: 'ApiKey',
                 properties: {
                   key: {
                     type: 'string',
@@ -84,6 +85,7 @@ test('should resolve description overrides correctly', async () => {
             content: {
               'application/json': {
                 schema: {
+                  title: 'LoginRequest',
                   properties: {
                     id: {
                       type: 'string',
