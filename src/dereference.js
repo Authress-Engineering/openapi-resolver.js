@@ -54,8 +54,22 @@ function crawl(obj, globallyUniqueFqdnPath, pathFromTopOfDocument, alreadyResolv
   if ($Ref.isAllowed$Ref(obj, options)) {
     const $refPath = resolve(globallyUniqueFqdnPath, obj.$ref);
 
-    // eslint-disable-next-line no-underscore-dangle
-    const pointer = $refs._resolve($refPath, globallyUniqueFqdnPath, options);
+    let pointer;
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      pointer = $refs._resolve($refPath, globallyUniqueFqdnPath, options);
+    } catch (error) {
+      if (error.code === "EUNKNOWN" || error.code === "EPARSER" || error.code === "EUNMATCHEDPARSER" || error.code === "ERESOLVER"
+        || error.code === "EUNMATCHEDRESOLVER" || error.code === "EMISSINGPOINTER" || error.code === "EINVALIDPOINTER") {
+        const resolutionError = new Error(`${obj.$ref} is not a valid $ref - ${error.message} - ${error.code}`);
+        resolutionError.code = 'InvalidRef';
+        throw resolutionError;
+      }
+
+      const resolutionError = new Error(`Failed to resolve $ref: ${obj.$ref} - ${error.message} - ${error.code}`);
+      resolutionError.code = 'InvalidRef';
+      throw resolutionError;
+    }
     if (!pointer) {
       return { value: null };
     }
