@@ -2,6 +2,13 @@
     "cSpell.words": [
         "apidevtools",
         "corejs",
+        "EINVALIDPOINTER",
+        "EMISSINGPOINTER",
+        "EPARSER",
+        "ERESOLVER",
+        "EUNKNOWN",
+        "EUNMATCHEDPARSER",
+        "EUNMATCHEDRESOLVER",
         "inspectpack"
     ]
 }
