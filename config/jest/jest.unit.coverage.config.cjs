@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-const unitConfig = require('./jest.unit.config');
+const unitConfig = require('./jest.unit.config.cjs');
 
 module.exports = {
   ...unitConfig,
