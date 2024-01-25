@@ -1,12 +1,12 @@
-const path = require('path');
-const webpack = require('webpack');
-const { StatsWriterPlugin } = require('webpack-stats-plugin');
-const { DuplicatesPlugin } = require('inspectpack/plugin');
-const { WebpackBundleSizeAnalyzerPlugin } = require('webpack-bundle-size-analyzer');
-const TerserPlugin = require('terser-webpack-plugin');
-const { cloneDeep } = require('lodash');
+import path from 'path';
+import webpack from 'webpack';
+import { StatsWriterPlugin } from 'webpack-stats-plugin';
+import { DuplicatesPlugin } from 'inspectpack/plugin';
+import { WebpackBundleSizeAnalyzerPlugin } from 'webpack-bundle-size-analyzer';
+import TerserPlugin from 'terser-webpack-plugin';
+import { cloneDeep } from 'lodash';
 
-const babelModule = {
+const module = {
   rules: [
     {
       test: /\.js$/,
@@ -44,10 +44,10 @@ const browser = {
       http: require.resolve('stream-http'),
       https: require.resolve('https-browserify'),
       buffer: require.resolve('buffer'),
-      path: require.resolve('path-browserify'),
+      path: require.resolve('path-browserify')
     },
   },
-  module: babelModule,
+  module,
   plugins: [
     new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
     new webpack.ProvidePlugin({ process: 'process/browser' }),
@@ -104,4 +104,4 @@ browserMin.optimization = {
   ],
 };
 
-module.exports = [browser, browserMin];
+export default [browser, browserMin];
