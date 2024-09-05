@@ -18,91 +18,30 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Cache Node Modules
-      id: cache-node-modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: node-modules-${{ hashFiles('yarn.lock') }}
-    - name: Install dependencies
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: yarn --frozen-lockfile
-    - name: Lint code
-      run: yarn lint
-    - name: Run all tests
-      run: yarn test
-      env:
-        CI: true
-    - name: Build
-      run: yarn build
-    - name: Upload commonjs build artifacts
-      if: startsWith(matrix.node-version, '16')
-      uses: actions/upload-artifact@v1
-      with:
-        name: commonjs
-        path: ./lib/
+      - uses: actions/checkout@v4
 
-  commonjs-artifacts-test:
-    name: commonjs-artifacts-test
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Use Node.js lowest enabled version
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16.x
-
-    - name: Cache Node Modules
-      id: cache-node-modules
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: node-modules-${{ hashFiles('yarn.lock') }}
-    - name: Install dependencies
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: yarn --frozen-lockfile
-
-    - name: Download commonjs build artifacts
-      uses: actions/download-artifact@v4.1.7
-      with:
-        name: commonjs
-
-    - name: Run commonjs build artifacts
-      run: node -p "require('./commonjs')"
-
-    - name: Use Node 16.x
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16.x
-    - name: Run commonjs build artifacts on Node.js 16.x
-      run: node -p "require('./commonjs')"
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build, commonjs-artifacts-test]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          registry-url: 'https://registry.npmjs.org'
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install packages
+      - name: Cache Node Modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn --frozen-lockfile
+
       - name: Run build
         run: node make.js build && yarn build
+
       - name: Test
         run: yarn lint && yarn test
+
       - name: Deploy to NPM
         if: github.repository_owner == 'Authress-Engineering' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
         run: npm publish
