@@ -27,8 +27,8 @@ Compatibility between OpenAPI Resolver and the OpenAPI Specification is as follo
 
 OpenAPI Resolver Version | Release Date | OpenAPI Spec compatibility | Notes
 ------------------ | ------------ | -------------------------- | -----
-3.10.x | 2020-01-17 | 2.0, 3.0.0 |
 4.x    | 2022-07-24 | 2.0, 3.0.0, 3.0.1, 3.0.2, 3.0.3, 3.1.0 |
+3.10.x | 2020-01-17 | 2.0, 3.0.0 |
 
 ## Installation
 
