@@ -60,7 +60,7 @@ components:
                 linkedMessage: {
                   title: 'Message',
                   $ref: '#/components/schemas/Message',
-                  circularReference: { $ref: '#/components/schemas/Message', name: 'Message' },
+                  circularReference: { $ref: '#/components/schemas/Message', id: 'Message', name: 'Message' },
                 },
                 text: {
                   type: 'string',
@@ -74,6 +74,7 @@ components:
                 $ref: '#/components/schemas/Comment',
                 circularReference: {
                   $ref: '#/components/schemas/Comment',
+                  id: 'Comment',
                   name: 'Comment',
                 },
               },
@@ -95,6 +96,7 @@ components:
                     $ref: '#/components/schemas/Message',
                     circularReference: {
                       $ref: '#/components/schemas/Message',
+                      id: 'Message',
                       name: 'Message',
                     },
                   },
@@ -110,6 +112,7 @@ components:
                   $ref: '#/components/schemas/Comment',
                   circularReference: {
                     $ref: '#/components/schemas/Comment',
+                    id: 'Comment',
                     name: 'Comment',
                   },
                 },
@@ -127,6 +130,7 @@ components:
               $ref: '#/components/schemas/Message',
               circularReference: {
                 $ref: '#/components/schemas/Message',
+                id: 'Message',
                 name: 'Message',
               },
             },
@@ -172,6 +176,7 @@ components:
                               $ref: '#/components/schemas/Message',
                               circularReference: {
                                 $ref: '#/components/schemas/Message',
+                                id: 'Message',
                                 name: 'Message',
                               },
                             },
@@ -187,6 +192,7 @@ components:
                             $ref: '#/components/schemas/Comment',
                             circularReference: {
                               $ref: '#/components/schemas/Comment',
+                              id: 'Comment',
                               name: 'Comment',
                             },
                           },
