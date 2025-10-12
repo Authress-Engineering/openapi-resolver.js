@@ -82,32 +82,34 @@ function crawl(obj, globallyUniqueFqdnPath, pathFromTopOfDocument, alreadyResolv
       return { value: null };
     }
 
-    // Merge the title into the object, we need to update the object, so that the update propagates forward and also ends up in the cache
-    obj.title = obj.title || obj.$ref.split('/').slice(-1)[0];
-
     // Dereference the JSON reference
-    const dereferencedValue = mergeRefObject(obj, $Ref.dereference(obj, pointer.value));
+    const dereferencedValue = $Ref.dereference(obj, pointer.value);
+
+    // Merge the title into the object, we need to update the object, so that the update propagates forward and also ends up in the cache
+    obj.title = obj.title || dereferencedValue.title || obj.$ref.split('/').slice(-1)[0];
+
+    const mergedDereferencedValue = mergeRefObject(obj, dereferencedValue);
 
     if (pointer.circular) {
       // The pointer is a DIRECT circular reference (i.e. it references itself).
       // So replace the $ref path with the absolute path from the JSON Schema root
-      dereferencedValue.$ref = pathFromTopOfDocument;
+      mergedDereferencedValue.$ref = pathFromTopOfDocument;
 
       foundCircularReference(globallyUniqueFqdnPath, $refs, options);
-      return { value: dereferencedValue, circular: true };
+      return { value: mergedDereferencedValue, circular: true };
     }
 
     if (options.dereference.onDereference) {
-      options.dereference.onDereference(pathFromTopOfDocument, dereferencedValue);
+      options.dereference.onDereference(pathFromTopOfDocument, mergedDereferencedValue);
     }
 
-    const result = crawl(dereferencedValue, pointer.path, pathFromTopOfDocument, new Set(alreadyResolvedObjects).add(obj), $refs, options);
+    const result = crawl(mergedDereferencedValue, pointer.path, pathFromTopOfDocument, new Set(alreadyResolvedObjects).add(obj), $refs, options);
     if (result.circular && options && options.dereference && options.dereference.circular && options.dereference.circular === 'ignore') {
       return {
         circular: false,
         value: {
           ...obj,
-          circularReference: { $ref: obj.$ref, name: obj.$ref.split('/').slice(-1)[0] },
+          circularReference: { $ref: obj.$ref, name: obj.$ref.split('/').slice(-1)[0], id: obj.$ref.split('/').slice(-1)[0] },
         },
       };
     }
