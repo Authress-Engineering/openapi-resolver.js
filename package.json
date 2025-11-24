@@ -96,7 +96,7 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.9",
     "@babel/runtime-corejs3": "^7.18.9",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "lodash.clonedeepwith": "^4.5.0"
   }
 }
