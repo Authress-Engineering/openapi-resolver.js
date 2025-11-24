@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ master, 'release/**' ]
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
