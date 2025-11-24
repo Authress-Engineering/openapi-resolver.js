@@ -39,17 +39,18 @@ jobs:
       - name: Test
         run: yarn lint && yarn test
 
+      - name: Set up Node.js for publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Deploy to NPM
         if: github.repository_owner == 'Authress-Engineering' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          npm install -g npm@11.5.1
+          npm publish --access public
 
-      - name: After build
-        if: github.repository_owner == 'Authress-Engineering' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node make.js after_build
       - name: Create Github Release and Tag
         if: github.repository_owner == 'Authress-Engineering' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.event_name == 'push'
         run: |

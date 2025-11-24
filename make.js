@@ -46,19 +46,6 @@ commander
     console.log('');
   });
 
-/**
- * After Build
- */
-commander
-  .command('after_build')
-  .description('Publishes git tags and reports failures.')
-  .action(() => {
-    const package_metadata = require('./package.json');
-    console.log('After build package %s (%s)', package_metadata.name, version);
-    console.log('');
-    // githubActionsRunner.MergeDownstream('release/', 'main');
-  });
-
 commander.on('*', () => {
   if (commander.args.join(' ') === 'tests/**/*.js') {
     return;
