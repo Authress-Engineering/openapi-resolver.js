@@ -41,10 +41,11 @@ const browser = {
     modules: ['node_modules'],
     extensions: ['.js', '.json'],
     fallback: {
+      url: require.resolve('url'),
       http: require.resolve('stream-http'),
       https: require.resolve('https-browserify'),
       buffer: require.resolve('buffer'),
-      path: require.resolve('path-browserify')
+      path: require.resolve('path-browserify'),
     },
   },
   module,
@@ -77,7 +78,7 @@ const browserMin = cloneDeep(browser);
 browserMin.devtool = 'source-map';
 browserMin.performance = {
   hints: 'error',
-  maxEntrypointSize: 270000,
+  maxEntrypointSize: 310000,
   maxAssetSize: 1300000,
 };
 browserMin.output.filename = 'openapi-resolver.browser.min.js';
