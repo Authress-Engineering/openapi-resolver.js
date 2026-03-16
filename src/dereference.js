@@ -1,6 +1,6 @@
-import $Ref from '@apidevtools/json-schema-ref-parser/lib/ref.js';
-import Pointer from '@apidevtools/json-schema-ref-parser/lib/pointer.js';
-import { resolve } from '@apidevtools/json-schema-ref-parser/lib/util/url.js';
+import $Ref from '@apidevtools/json-schema-ref-parser/dist/lib/ref.js';
+import Pointer from '@apidevtools/json-schema-ref-parser/dist/lib/pointer.js';
+import { resolve } from '@apidevtools/json-schema-ref-parser/dist/lib/util/url.js';
 
 export default dereference;
 

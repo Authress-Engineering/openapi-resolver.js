@@ -6,4 +6,5 @@ module.exports = {
   testMatch: ['**/test/*.test.js', '**/test/**/*.test.js'],
   setupFilesAfterEnv: ['<rootDir>/test/jest.setup.js'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  transformIgnorePatterns: ['node_modules/(?!@apidevtools/json-schema-ref-parser)'],
 };

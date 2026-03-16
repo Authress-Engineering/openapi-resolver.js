@@ -94,7 +94,7 @@
     "webpack-stats-plugin": "=1.0.3"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^9.0.9",
+    "@apidevtools/json-schema-ref-parser": "^15.3.1",
     "@babel/runtime-corejs3": "^7.18.9",
     "js-yaml": "^4.1.1",
     "lodash.clonedeepwith": "^4.5.0",
