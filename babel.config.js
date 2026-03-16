@@ -9,7 +9,7 @@ module.exports = {
             modules: 'commonjs',
             corejs: { version: 3 },
             targets: {
-              node: '16',
+              node: '20',
             },
             forceAllTransforms: false,
           },
