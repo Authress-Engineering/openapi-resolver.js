@@ -50,7 +50,6 @@ const browser = {
   module,
   plugins: [
     new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-    new webpack.ProvidePlugin({ process: 'process/browser' }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
     }),
@@ -83,7 +82,6 @@ browserMin.performance = {
 browserMin.output.filename = 'openapi-resolver.browser.min.js';
 browserMin.plugins = [
   new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] }),
-  new webpack.ProvidePlugin({ process: 'process/browser' }),
   new webpack.LoaderOptionsPlugin({
     minimize: true,
   }),

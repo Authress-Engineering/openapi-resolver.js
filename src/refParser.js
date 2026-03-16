@@ -1,10 +1,10 @@
 /* eslint-disable prefer-rest-params */
 /* eslint-disable no-underscore-dangle */
-import $Refs from '@apidevtools/json-schema-ref-parser/lib/refs.js';
-import _parse from '@apidevtools/json-schema-ref-parser/lib/parse.js';
-import normalizeArgs from '@apidevtools/json-schema-ref-parser/lib/normalize-args.js';
-import resolveExternal from '@apidevtools/json-schema-ref-parser/lib/resolve-external.js';
-import * as url from '@apidevtools/json-schema-ref-parser/lib/util/url.js';
+import $Refs from '@apidevtools/json-schema-ref-parser/dist/lib/refs.js';
+import _parse from '@apidevtools/json-schema-ref-parser/dist/lib/parse.js';
+import normalizeArgs from '@apidevtools/json-schema-ref-parser/dist/lib/normalize-args.js';
+import resolveExternal from '@apidevtools/json-schema-ref-parser/dist/lib/resolve-external.js';
+import * as url from '@apidevtools/json-schema-ref-parser/dist/lib/util/url.js';
 import {
   JSONParserError,
   InvalidPointerError,
@@ -15,7 +15,7 @@ import {
   UnmatchedResolverError,
   isHandledError,
   JSONParserErrorGroup,
-} from '@apidevtools/json-schema-ref-parser/lib/util/errors.js';
+} from '@apidevtools/json-schema-ref-parser/dist/lib/util/errors.js';
 
 import _dereference from './dereference.js';
 // import type { ParserOptions } from "./options.js";
